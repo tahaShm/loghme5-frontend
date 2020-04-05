@@ -22,4 +22,13 @@ function toPersianNum( num, dontTrim ) {
 
     return res;
 }
+
+function isFarsiNumber(str) {
+    var p = /^[\u06F0-\u06F90-9]+$/;
+
+    if (!p.test(str)) {
+        return false;
+    }
+    return true;
+}
 export default toPersianNum;

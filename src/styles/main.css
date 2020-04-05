@@ -1,11 +1,22 @@
 @import "./vazirFonts.css";
 
+html {
+    margin: 0px;
+    height: 100%;
+}
+
 body {
+    margin: 0px;
     background-color: #F7FFF7;
     min-height: calc(100vh - 170px);
     position: relative;
     max-width: 100%;
     overflow-x: hidden;
+}
+
+#root {
+    margin: 0px;
+    min-height: 100vh;
 }
 
 /* navbar */
@@ -133,10 +144,13 @@ body {
         height: 17vw;
     }
     .mySignupLogo {
-        margin-top: 10vw;
+        padding-top: 10vw;
     }
     .mySignupTab {
         top: 4vw;
+    }
+    ::placeholder {
+        font-size: 1.5vw;
     }
 }
 
@@ -149,7 +163,7 @@ body {
 }
 
 .signUpRow {
-    padding: 30px;
+    padding: 20px;
 }
 
 .signUpCol {
@@ -162,10 +176,11 @@ body {
     background-color: #4ECDC4;
 }
 
-/* .mySignupBody {
-    background: url(../Assets/CoverPhoto.jpg) no-repeat center center fixed;
+.mySignupBody {
+    min-height: 100vh;
+    background: url(../images/CoverPhoto.jpg) no-repeat center center fixed;
     background-size: cover;
-} */
+}
 
 .mySignupTab {
     position: relative; 
@@ -285,6 +300,10 @@ body {
     background-color: #e6e6e6;
     border-radius: 5px;
     font-size: 110%;
+}
+
+.myCreditInp::placeholder {
+    color: rgb(211, 106, 106);
 }
 
 .myCreditRow {
