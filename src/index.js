@@ -1,16 +1,16 @@
-import React from 'react';
+import React, { Profiler } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './screens/App';
-import App2 from './screens/App2'
 import * as serviceWorker from './serviceWorker';
 import { Router, Route, Link, browserHistory, IndexRoute } from 'react-router'
 import { BrowserRouter } from 'react-router-dom'
+import Profile from './screens/Profile';
 ReactDOM.render((
   <BrowserRouter>
     <div>
       <Route exact path='/' component={App} />
-      <Route path='/app2' component={App2} />
+      <Route path='/profile' component={Profile} />
     </div>
 </BrowserRouter>
 ), document.getElementById('root'))
