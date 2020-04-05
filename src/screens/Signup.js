@@ -13,19 +13,31 @@ class Signup extends Component {
         this.setUserName = this.setUserName.bind(this);
         this.setPassword = this.setPassword.bind(this);
         this.handleSignup = this.handleSignup.bind(this);
+        this.handleLogin = this.handleLogin.bind(this);
+        this.showSignup = this.showSignup.bind(this);
+        this.showLogin  = this.showLogin.bind(this);
+        this.setUserNameLogin  = this.setUserNameLogin.bind(this);
+        this.setPasswordLogin  = this.setPasswordLogin.bind(this);
 
         this.nameRef = React.createRef();
         this.phoneRef = React.createRef();
         this.emailRef = React.createRef();
         this.usernameRef = React.createRef();
         this.passwordRef = React.createRef();
+        this.signupRef = React.createRef();
+        this.loginRef = React.createRef();
+        this.usernameRefLogin = React.createRef();
+        this.passwordRefLogin = React.createRef();
 
         this.state = {
             name: '',
             phone: '',
             email: '',
             username: '',
-            password: ''
+            password: '',
+            usernameLogin: '',
+            passwordLogin: '',
+            inSignup: true
         }
     }
     setName(event) {
@@ -98,7 +110,54 @@ class Signup extends Component {
         }
     }
 
+    setUserNameLogin(event) {
+        this.setState({usernameLogin: event.target.value});
+        this.usernameRefLogin.current.style.borderColor = 'gray';
+    }
+    setPasswordLogin(event) {
+        this.setState({passwordLogin: event.target.value});
+        this.passwordRefLogin.current.style.borderColor = 'gray';
+    }
+    handleLogin(event) {
+        // Username
+        if (this.state.usernameLogin == null || this.state.usernameLogin === "") {
+            this.usernameRefLogin.current.style.borderColor = 'red';
+            this.usernameRefLogin.current.placeholder = 'پر کردن این قسمت الزامی است!';
+        }
+        // Password
+        if (this.state.passwordLogin == null || this.state.passwordLogin === "") {
+            this.passwordRefLogin.current.style.borderColor = 'red';
+            this.passwordRefLogin.current.placeholder = 'پر کردن این قسمت الزامی است!';
+        }
+    }
+    showSignup(event) {
+        this.state.inSignup = true;
+        this.signupRef.current.style.visibility = 'visible';
+        this.signupRef.current.style.display = 'block';
+        this.loginRef.current.style.visibility = 'hidden';
+        this.loginRef.current.style.display = 'none';
+        this.forceUpdate();
+    }
+    showLogin(event) {
+        this.state.inSignup = false;
+        this.loginRef.current.style.visibility = 'visible';
+        this.loginRef.current.style.display = 'block';
+        this.signupRef.current.style.visibility = 'hidden';
+        this.signupRef.current.style.display = 'none';
+        this.forceUpdate();
+    }
+
     render() {
+        let rightButton = 'btn myRightTabButton';
+        let leftButton = 'btn myLeftTabButton';
+        if (this.state.inSignup) {
+            rightButton += ' myActiveTab';
+            leftButton += ' myNotActiveTab';
+        }
+        else {
+            rightButton += ' myNotActiveTab';
+            leftButton += ' myActiveTab';
+        }
         return (
             <div class="mySignupBody">
                 <header>         
@@ -108,10 +167,10 @@ class Signup extends Component {
 
                 <div class="mySignupTab">
                     <div class="d-flex justify-content-center">
-                        <button type="button" class="btn myRightTabButton myActiveTab">ثبت نام</button>
-                        <button type="button" class="btn myLeftTabButton myNotActiveTab">ورود</button>
+                        <button type="button" className={rightButton} onClick={this.showSignup}>ثبت نام</button>
+                        <button type="button" className={leftButton} onClick={this.showLogin}>ورود</button>
                     </div>
-                    <div id = "signUp" class="active card myMiddleCard myCardBorder mySignupCard">
+                    <div ref={this.signupRef} class="active card myMiddleCard myCardBorder mySignupCard">
                         <div class="card-body">
                             <div class="container">
                                 <div class="row justify-content-center signUpRow">
@@ -167,6 +226,34 @@ class Signup extends Component {
                                     </div>
                                 </div>
 
+                            </div>
+                        </div>
+                    </div>
+                    <div ref={this.loginRef} class="active card myMiddleCard myCardBorder mySignupCard myHiddenDiv">
+                        <div class="card-body">
+                            <div class="container">
+                                <div class="row justify-content-center signUpRow">
+                                    <div class="col-4 signUpCol">نام کاربری</div>
+                                    <div class="col-6">
+                                        <input type="text" class="form-control myCreditInp" value={this.state.usernameLogin} onChange={this.setUserNameLogin} ref={this.usernameRefLogin}/>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center">
+                                    <div class = "col-9 separatorLine"></div>
+                                </div>
+
+                                <div class="row justify-content-center signUpRow">
+                                    <div class="col-4 signUpCol ">رمز عبور</div>
+                                    <div class="col-6">
+                                        <input type="password" class="form-control myCreditInp" value={this.state.passwordLogin} onChange={this.setPasswordLogin} ref={this.passwordRefLogin}/>
+                                    </div>
+                                </div>
+
+                                <div class="row justify-content-center">
+                                    <div class="col-4">
+                                        <button type="button" class="btn myCreditBtn" onClick={this.handleLogin}>ورود</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
