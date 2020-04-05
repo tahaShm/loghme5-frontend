@@ -1,9 +1,9 @@
-import React, { Profiler } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import Signup from './screens/Signup';
 import * as serviceWorker from './serviceWorker';
-import { Router, Route, Link, browserHistory, IndexRoute } from 'react-router'
+import { Route } from 'react-router'
 import { BrowserRouter } from 'react-router-dom'
 import Profile from './screens/Profile';
 ReactDOM.render((

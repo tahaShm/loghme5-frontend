@@ -49,15 +49,15 @@ class Signup extends Component {
         this.passwordRef.current.style.borderColor = 'gray';
     }
     isPhoneValid(num) {
-        if (num.length == 11 && isFarsiNumber(num) && num[0] == '۰' && num[1] == '۹')
+        if (num.length === 11 && isFarsiNumber(num) && num[0] === '۰' && num[1] === '۹')
             return true;
-        if (num.length == 11 && num.match(/^\d+$/) && num[0] == '0' && num[1] == '9')
+        if (num.length === 11 && num.match(/^\d+$/) && num[0] === '0' && num[1] === '9')
             return true;
         return false;
     }
     handleSignup(event) {
         // Name
-        if (this.state.name == null || this.state.name == "") {
+        if (this.state.name == null || this.state.name === "") {
             this.nameRef.current.style.borderColor = 'red';
             this.nameRef.current.placeholder = 'پر کردن این قسمت الزامی است!';
         }
@@ -67,7 +67,7 @@ class Signup extends Component {
             this.nameRef.current.placeholder = 'از حروف فارسی استفاده کنید!';
         }
         // Phone
-        if (this.state.phone == null || this.state.phone == "") {
+        if (this.state.phone == null || this.state.phone === "") {
             this.phoneRef.current.style.borderColor = 'red';
             this.phoneRef.current.placeholder = 'پر کردن این قسمت الزامی است!';
         }
@@ -77,7 +77,7 @@ class Signup extends Component {
             this.phoneRef.current.placeholder = 'شماره ی وارد شده معتبر نیست!';
         }
         // Email
-        if (this.state.email == null || this.state.email == "") {
+        if (this.state.email == null || this.state.email === "") {
             this.emailRef.current.style.borderColor = 'red';
             this.emailRef.current.placeholder = 'پر کردن این قسمت الزامی است!';
         }
@@ -87,12 +87,12 @@ class Signup extends Component {
             this.emailRef.current.placeholder = 'ایمیل وارد شده معتبر نیست!';
         }
         // Username
-        if (this.state.username == null || this.state.username == "") {
+        if (this.state.username == null || this.state.username === "") {
             this.usernameRef.current.style.borderColor = 'red';
             this.usernameRef.current.placeholder = 'پر کردن این قسمت الزامی است!';
         }
         // Password
-        if (this.state.password == null || this.state.password == "") {
+        if (this.state.password == null || this.state.password === "") {
             this.passwordRef.current.style.borderColor = 'red';
             this.passwordRef.current.placeholder = 'پر کردن این قسمت الزامی است!';
         }
