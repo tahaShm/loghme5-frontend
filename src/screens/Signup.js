@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import logo from '../images/LOGO.png';
 import isStringFarsi from '../utils/PersianText';
 import isFarsiNumber from '../utils/PersianNumber';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '../styles/font/flaticon.css'
+import '../styles/main.css'
 import Footer from '../components/Footer';
 
 class Signup extends Component {
@@ -164,97 +167,97 @@ class Signup extends Component {
             <div>
                 <div>
                     <header>         
-                        <img class="mySignupLogo" src={logo} alt="logo"/>
-                        <p class ="myGreetingMsg">اولین و بزرگترین وب سایت سفارش آنلاین غذا در دانشگاه تهران</p>
+                        <img className="mySignupLogo" src={logo} alt="logo"/>
+                        <p className ="myGreetingMsg">اولین و بزرگترین وب سایت سفارش آنلاین غذا در دانشگاه تهران</p>
                     </header>
 
-                    <div class="mySignupTab">
-                        <div class="d-flex justify-content-center">
+                    <div className="mySignupTab">
+                        <div className="d-flex justify-content-center">
                             <button type="button" className={rightButton} onClick={this.showSignup}>ثبت نام</button>
                             <button type="button" className={leftButton} onClick={this.showLogin}>ورود</button>
                         </div>
-                        <div ref={this.signupRef} class="active card myMiddleCard myCardBorder mySignupCard">
-                            <div class="card-body">
-                                <div class="container">
-                                    <div class="row justify-content-center signUpRow">
-                                        <div class="col-4 signUpCol ">نام و نام خانوادگی</div>
-                                        <div class="col-6">
-                                            <input type="text" class="form-control myCreditInp" id="name" value={this.state.name} onChange={this.setName} ref={this.nameRef}/>
+                        <div ref={this.signupRef} className="active card myMiddleCard myCardBorder mySignupCard">
+                            <div className="card-body">
+                                <div className="container">
+                                    <div className="row justify-content-center signUpRow">
+                                        <div className="col-4 signUpCol ">نام و نام خانوادگی</div>
+                                        <div className="col-6">
+                                            <input type="text" className="form-control mySignUpInput" id="name" value={this.state.name} onChange={this.setName} ref={this.nameRef}/>
                                         </div>
                                     </div>
-                                    <div class="row justify-content-center">
-                                        <div class = "col-9 separatorLine"></div>
+                                    <div className="row justify-content-center">
+                                        <div className = "col-9 separatorLine"></div>
                                     </div>
 
-                                    <div class="row justify-content-center signUpRow">
-                                        <div class="col-4 signUpCol ">تلفن همراه</div>
-                                        <div class="col-6">
-                                            <input type="tel" class="form-control myCreditInp" id="phone" value={this.state.phone} onChange={this.setPhone} ref={this.phoneRef}/>
+                                    <div className="row justify-content-center signUpRow">
+                                        <div className="col-4 signUpCol ">تلفن همراه</div>
+                                        <div className="col-6">
+                                            <input type="tel" className="form-control mySignUpInput" id="phone" value={this.state.phone} onChange={this.setPhone} ref={this.phoneRef}/>
                                         </div>
                                     </div>
-                                    <div class="row justify-content-center">
-                                        <div class = "col-9 separatorLine"></div>
+                                    <div className="row justify-content-center">
+                                        <div className = "col-9 separatorLine"></div>
                                     </div>
 
-                                    <div class="row justify-content-center signUpRow">
-                                        <div class="col-4 signUpCol ">ایمیل</div>
-                                        <div class="col-6">
-                                            <input type="email" class="form-control myCreditInp" id="email" value={this.state.email} onChange={this.setEmail} ref={this.emailRef}/>
+                                    <div className="row justify-content-center signUpRow">
+                                        <div className="col-4 signUpCol ">ایمیل</div>
+                                        <div className="col-6">
+                                            <input type="email" className="form-control mySignUpInput" id="email" value={this.state.email} onChange={this.setEmail} ref={this.emailRef}/>
                                         </div>
                                     </div>
-                                    <div class="row justify-content-center">
-                                        <div class = "col-9 separatorLine"></div>
+                                    <div className="row justify-content-center">
+                                        <div className = "col-9 separatorLine"></div>
                                     </div>
 
-                                    <div class="row justify-content-center signUpRow">
-                                        <div class="col-4 signUpCol ">نام کاربری</div>
-                                        <div class="col-6">
-                                            <input type="text" class="form-control myCreditInp" id="username" value={this.state.username} onChange={this.setUserName} ref={this.usernameRef}/>
+                                    <div className="row justify-content-center signUpRow">
+                                        <div className="col-4 signUpCol ">نام کاربری</div>
+                                        <div className="col-6">
+                                            <input type="text" className="form-control mySignUpInput" id="username" value={this.state.username} onChange={this.setUserName} ref={this.usernameRef}/>
                                         </div>
                                     </div>
-                                    <div class="row justify-content-center">
-                                        <div class = "col-9 separatorLine"></div>
+                                    <div className="row justify-content-center">
+                                        <div className = "col-9 separatorLine"></div>
                                     </div>
 
-                                    <div class="row justify-content-center signUpRow">
-                                        <div class="col-4 signUpCol ">رمز عبور</div>
-                                        <div class="col-6">
-                                            <input type="password" class="form-control myCreditInp" id="password" value={this.state.password} onChange={this.setPassword} ref={this.passwordRef}/>
+                                    <div className="row justify-content-center signUpRow">
+                                        <div className="col-4 signUpCol ">رمز عبور</div>
+                                        <div className="col-6">
+                                            <input type="password" className="form-control mySignUpInput" id="password" value={this.state.password} onChange={this.setPassword} ref={this.passwordRef}/>
                                         </div>
                                     </div>
 
-                                    <div class="row justify-content-center">
-                                        <div class="col-4">
-                                            <button type="button" class="btn myCreditBtn" onClick={this.handleSignup}>ثبت نام</button>
+                                    <div className="row justify-content-center">
+                                        <div className="col-4">
+                                            <button type="button" className="btn myCreditBtn" onClick={this.handleSignup}>ثبت نام</button>
                                         </div>
                                     </div>
 
                                 </div>
                             </div>
                         </div>
-                        <div ref={this.loginRef} class="active card myMiddleCard myCardBorder mySignupCard myHiddenDiv">
-                            <div class="card-body">
-                                <div class="container">
-                                    <div class="row justify-content-center signUpRow">
-                                        <div class="col-4 signUpCol">نام کاربری</div>
-                                        <div class="col-6">
-                                            <input type="text" class="form-control myCreditInp" value={this.state.usernameLogin} onChange={this.setUserNameLogin} ref={this.usernameRefLogin}/>
+                        <div ref={this.loginRef} className="active card myMiddleCard myCardBorder mySignupCard myHiddenDiv">
+                            <div className="card-body">
+                                <div className="container">
+                                    <div className="row justify-content-center signUpRow">
+                                        <div className="col-4 signUpCol">نام کاربری</div>
+                                        <div className="col-6">
+                                            <input type="text" className="form-control mySignUpInput" value={this.state.usernameLogin} onChange={this.setUserNameLogin} ref={this.usernameRefLogin}/>
                                         </div>
                                     </div>
-                                    <div class="row justify-content-center">
-                                        <div class = "col-9 separatorLine"></div>
+                                    <div className="row justify-content-center">
+                                        <div className = "col-9 separatorLine"></div>
                                     </div>
 
-                                    <div class="row justify-content-center signUpRow">
-                                        <div class="col-4 signUpCol ">رمز عبور</div>
-                                        <div class="col-6">
-                                            <input type="password" class="form-control myCreditInp" value={this.state.passwordLogin} onChange={this.setPasswordLogin} ref={this.passwordRefLogin}/>
+                                    <div className="row justify-content-center signUpRow">
+                                        <div className="col-4 signUpCol ">رمز عبور</div>
+                                        <div className="col-6">
+                                            <input type="password" className="form-control mySignUpInput" value={this.state.passwordLogin} onChange={this.setPasswordLogin} ref={this.passwordRefLogin}/>
                                         </div>
                                     </div>
 
-                                    <div class="row justify-content-center">
-                                        <div class="col-4">
-                                            <button type="button" class="btn myCreditBtn" onClick={this.handleLogin}>ورود</button>
+                                    <div className="row justify-content-center">
+                                        <div className="col-4">
+                                            <button type="button" className="btn myCreditBtn" onClick={this.handleLogin}>ورود</button>
                                         </div>
                                     </div>
                                 </div>
