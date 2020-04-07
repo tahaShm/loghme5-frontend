@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Button, Modal } from 'react-bootstrap';
 import '../styles/font/flaticon.css'
 import '../styles/main.css'
 import Navbar from '../components/Navbar';
 import Header from '../components/Header';
+import OrderRow from '../components/OrderRow'
 import Footer from '../components/Footer';
+import toPersianNum from '../utils/PersianNumber';
 
 class Profile extends Component {
     constructor(props) {
@@ -13,7 +16,9 @@ class Profile extends Component {
         this.setCredit  = this.setCredit.bind(this);
         this.handleIncreaseCredit = this.handleIncreaseCredit.bind(this)
         this.showOrders = this.showOrders.bind(this);
-        this.showCredit  = this.showCredit.bind(this);
+        this.showCredit = this.showCredit.bind(this);
+        this.showFactor = this.showFactor.bind(this); 
+        this.hideFactor = this.hideFactor.bind(this);
 
         this.orderRef = React.createRef();
         this.creditRef = React.createRef();
@@ -22,7 +27,119 @@ class Profile extends Component {
         this.state = {
             inOrders: true,
             credit: '',
-            wrongCredit: false
+            wrongCredit: false,
+            currentOrder: [],
+            orders: [
+                {
+                    id: 1,
+                    restaurantName: "رستوران خامس",
+                    status: "finding",
+                    orderList: [
+                        {
+                            foodName: "برگر گوشت",
+                            amount: 3,
+                            price: 30000
+                        },
+                        {
+                            foodName: "برگر مرغ",
+                            amount: 2,
+                            price: 22000
+                        }
+                    ]
+                },
+                {
+                    id: 2,
+                    restaurantName: "رستوران خامس",
+                    status: "onTheWay",
+                    orderList: [
+                        {
+                            foodName: "برگر گوشت",
+                            amount: 3,
+                            price: 30000
+                        },
+                        {
+                            foodName: "برگر مرغ",
+                            amount: 2,
+                            price: 22000
+                        }
+                    ]
+                },
+                {
+                    id: 3,
+                    restaurantName: "رستوران خامس",
+                    status: "delivered",
+                    orderList: [
+                        {
+                            foodName: "برگر گوشت",
+                            amount: 3,
+                            price: 30000
+                        },
+                        {
+                            foodName: "برگر مرغ",
+                            amount: 2,
+                            price: 22000
+                        }
+                    ]
+                },
+                {
+                    id: 4,
+                    restaurantName: "رستوران خامس",
+                    status: "delivered",
+                    orderList: [
+                        {
+                            foodName: "برگر گوشت",
+                            amount: 3,
+                            price: 30000
+                        },
+                        {
+                            foodName: "برگر مرغ",
+                            amount: 2,
+                            price: 22000
+                        },
+                        {
+                            foodName: "برگر گوشت",
+                            amount: 3,
+                            price: 30000
+                        },
+                        {
+                            foodName: "برگر مرغ",
+                            amount: 2,
+                            price: 22000
+                        },
+                        {
+                            foodName: "برگر گوشت",
+                            amount: 3,
+                            price: 30000
+                        },
+                        {
+                            foodName: "برگر مرغ",
+                            amount: 2,
+                            price: 22000
+                        },
+                        {
+                            foodName: "برگر گوشت",
+                            amount: 3,
+                            price: 30000
+                        },
+                        {
+                            foodName: "برگر مرغ",
+                            amount: 2,
+                            price: 22000
+                        },
+                        {
+                            foodName: "برگر گوشت",
+                            amount: 3,
+                            price: 30000
+                        },
+                        {
+                            foodName: "برگر مرغ",
+                            amount: 2,
+                            price: 22000
+                        }
+                    ]
+                }
+            ],
+            dialogShow: false
         }
     }
     setCredit(event) {
@@ -55,6 +172,52 @@ class Profile extends Component {
         this.orderRef.current.style.display = 'none';
         this.forceUpdate();
     }
+    showFactor(order) {
+        this.setState({currentOrder: order})
+        this.setState({dialogShow: true})
+    }
+    hideFactor(){
+        this.setState({dialogShow: false})
+    }
+    showOrder = (order, i) => {
+        return  <OrderRow id = {order.id} restaurantName = {order.restaurantName} status = {order.status} onButtonClick = {(e) => this.showFactor(order)} />
+    }
+    renderOrders(){
+        if (this.state.orders)
+        return (
+            <div className="container">
+            {   
+                this.state.orders.map(this.showOrder, this)
+            }
+            </div>
+        )
+    }
+    renderCurrentOrder() {
+        if (this.state.currentOrder != null && this.state.currentOrder.orderList != null){
+            return (
+                this.state.currentOrder.orderList.map(function(food, i){
+                    return (
+                        <tr>
+                            <th scope="row">{toPersianNum(i + 1)}</th>
+                            <td>{food.foodName}</td>
+                            <td>{toPersianNum(food.amount)}</td>
+                            <td>{toPersianNum(food.price)}</td>
+                        </tr>
+                    )
+                })
+            )}
+    }
+    calculateTotalPrice() {
+        var totalPrice = 0;
+        var orderList = this.state.currentOrder.orderList;
+        
+        if (orderList != null && orderList !== ""){
+            orderList.forEach(function (food) {
+                totalPrice += food.amount * food.price
+            });
+        }
+        return totalPrice;
+    }
     render() {
         let rightButton = 'btn myRightTabButton';
         let leftButton = 'btn myLeftTabButton';
@@ -81,64 +244,7 @@ class Profile extends Component {
                     </div>
                     <div ref={this.orderRef} className="card myMiddleCard myCardBorder">
                         <div className="card-body">
-                            <div className="container">
-                                <div className="row justify-content-center myOrderRow">
-                                    <div className="col-1 myOrderCol">۱</div>
-                                    <div className="col-6 myOrderCol myMiddleCol">رستوران خامس</div>
-                                    <div className="col">
-                                        <button type="button" className="btn btn-sm myDelivering" disabled>پیک در مسیر</button>
-                                    </div>
-                                </div>
-                                <div className="row justify-content-center myOrderRow">
-                                    <div className="col-1 myOrderCol">۲</div>
-                                    <div className="col-6 myOrderCol myMiddleCol">رستوران خامس</div>
-                                    <div className="col">
-                                        <button type="button" className="btn btn-sm mySearching" disabled>در جستوجوی پیک</button>
-                                    </div>
-                                </div>
-                                <div className="row justify-content-center myOrderRow">
-                                    <div className="col-1 myOrderCol">۳</div>
-                                    <div className="col-6 myOrderCol myMiddleCol">رستوران خامس</div>
-                                    <div className="col">
-                                        <button type="button" className="btn btn-sm mySeeBill">مشاهده فاکتور</button>
-                                    </div>
-                                </div>
-                                <div className="row justify-content-center myOrderRow">
-                                    <div className="col-1 myOrderCol">۴</div>
-                                    <div className="col-6 myOrderCol myMiddleCol">رستوران خامس</div>
-                                    <div className="col">
-                                        <button type="button" className="btn btn-sm mySeeBill">مشاهده فاکتور</button>
-                                    </div>
-                                </div>
-                                <div className="row justify-content-center myOrderRow">
-                                    <div className="col-1 myOrderCol">۵</div>
-                                    <div className="col-6 myOrderCol myMiddleCol">رستوران خامس</div>
-                                    <div className="col">
-                                        <button type="button" className="btn btn-sm mySeeBill">مشاهده فاکتور</button>
-                                    </div>
-                                </div>
-                                <div className="row justify-content-center myOrderRow">
-                                    <div className="col-1 myOrderCol">۶</div>
-                                    <div className="col-6 myOrderCol myMiddleCol">رستوران خامس</div>
-                                    <div className="col">
-                                        <button type="button" className="btn btn-sm mySeeBill">مشاهده فاکتور</button>
-                                    </div>
-                                </div>
-                                <div className="row justify-content-center myOrderRow myLastRow">
-                                    <div className="col-1 myOrderCol">۷</div>
-                                    <div className="col-6 myOrderCol myMiddleCol">رستوران خامس</div>
-                                    <div className="col">
-                                        <button type="button" className="btn btn-sm mySeeBill">مشاهده فاکتور</button>
-                                    </div>
-                                </div>
-                                <div className="row justify-content-center myOrderRow myLastRow">
-                                    <div className="col-1 myOrderCol">۷</div>
-                                    <div className="col-6 myOrderCol myMiddleCol">رستوران خامس</div>
-                                    <div className="col">
-                                        <button type="button" className="btn btn-sm mySeeBill">مشاهده فاکتور</button>
-                                    </div>
-                                </div>
-                            </div>
+                            {this.renderOrders()}
                         </div>
                     </div>
                     <div ref={this.creditRef} className="card myMiddleCard myCardBorder myHiddenDiv">
@@ -156,6 +262,38 @@ class Profile extends Component {
                         </div>
                     </div>
                 </div>
+
+                <Modal 
+                    show={this.state.dialogShow} 
+                    onHide={this.hideFactor}
+                    size = "lg"
+                    centered 
+                >
+                    <Modal.Body class = "profileModal">
+                        <div class = "profileModalTitle col">
+                            <p class="text-center">رستوران خامس</p>
+                        </div>
+                        <hr class="profileModalHr"/>
+                        <div class = "profileModalBody">
+                            <table class="orderTable">
+                                <thead class="pTHeadModal">
+                                <tr>
+                                    <th class="col-1">ردیف</th>
+                                    <th class="col-7">نام غذا</th>
+                                    <th class="col-2">تعداد</th>
+                                    <th class="col-2">قیمت</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {this.renderCurrentOrder()}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class = "profileModalFooter">
+                        <p class = "modalTotalPrice"><b>جمع کل: {toPersianNum(this.calculateTotalPrice())} تومان</b></p>
+                        </div>
+                    </Modal.Body>
+                </Modal>
                 <Footer />
             </div>
         )

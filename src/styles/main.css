@@ -600,3 +600,42 @@ body {
         font-weight: bold;
     }
 }
+
+/* ProfileModal */
+.Modal {
+    margin: 0 auto;
+}
+.profileModal {
+    padding: 30px;
+    border-radius: 30px;
+    background-color: #fff;
+}
+.profileModalTitle {
+    padding: 10px;
+    font-size: 24px;
+}
+.profileModalHr {
+    width: 60%;
+    border-top: 2px solid #dfdfdf; 
+    margin-top: -5px;
+}
+.orderTable {
+    border: 1px solid #dddddd;
+    width: 100%;
+}
+.pTHeadModal {
+    background-color: #eeeeee;
+    color: #999999;
+    font-size: 14px;
+}
+.orderTable th,  .orderTable td{
+    text-align: center; 
+    border: 1px solid #dddddd;
+    padding: 5px;
+}
+.profileModalFooter {
+    margin-top: 10px;
+}
+.modalTotalPrice {
+    font-size: 14px;
+}

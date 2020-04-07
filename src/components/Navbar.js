@@ -7,11 +7,13 @@ class Navbar extends Component {
         super(props);
 
         this.state = {
+            userAccountField: false, 
             reservedFoods: 0
         }
     }
     componentDidMount() {
         this.setState({reservedFoods : this.props.reservedFoods})
+        this.setState({userAccountField: this.props.userAccountField ? this.props.userAccountField : false})
     }
     render() {
         return (
@@ -30,9 +32,11 @@ class Navbar extends Component {
                             </span>
                         </a>
                     </li>
-                    <li className="nav-item">
-                        <a className="nav-link myNav-account" href="./profileOrders.html">حساب کاربری</a>
-                    </li>
+                    {this.state.userAccountField &&
+                        <li className="nav-item">
+                            <a className="nav-link myNav-account" href="./profileOrders.html">حساب کاربری</a>
+                        </li>
+                    }
                     <li className="nav-item mx-3">
                         <a className="nav-link myNav-exit" href="./signup.html">خروج</a>
                     </li>
