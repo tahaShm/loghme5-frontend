@@ -165,17 +165,17 @@ class Profile extends Component {
             method: 'post',
             url: 'http://localhost:8080/credit',
             data: {
-              credit: this.state.credit
+                credit: this.state.credit
             }
-          })
-          .then((response) => {
-            localStorage.setItem('credit', response.data);
-            this.setState({userCredit: localStorage.getItem('credit')})
-            console.log(localStorage.getItem('credit'));
-          })
-          .catch((error) => {
-            console.log(error)
-          });
+            })
+            .then((response) => {
+                localStorage.setItem('credit', response.data);
+                this.setState({userCredit: localStorage.getItem('credit')})
+                console.log(localStorage.getItem('credit'));
+            })
+            .catch((error) => {
+                console.log(error)
+            });
 
         this.setState({credit: 0});
     }
@@ -203,7 +203,7 @@ class Profile extends Component {
         this.setState({dialogShow: false})
     }
     showOrder = (order, i) => {
-        return  <OrderRow id = {order.id} restaurantName = {order.restaurantName} status = {order.status} onButtonClick = {(e) => this.showFactor(order)} />
+        return  <OrderRow id = {i+1} restaurantName = {order.restaurantName} status = {order.status} onButtonClick = {(e) => this.showFactor(order)} />
     }
     renderOrders(){
         if (this.state.orders)
@@ -240,6 +240,16 @@ class Profile extends Component {
             });
         }
         return totalPrice;
+    }
+    componentDidMount() {
+        axios.get('http://localhost:8080/order')
+            .then((response) => {
+                this.setState({orders: response.data});
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.log(error)
+            });
     }
     render() {
         let rightButton = 'btn myRightTabButton';

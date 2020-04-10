@@ -10,6 +10,7 @@ import Footer from '../components/Footer';
 import toPersianNum from '../utils/PersianNumber';
 import { Redirect } from 'react-router';
 import RestaurantImg from '../images/McDonald\'sLogo.png'
+import axios from 'axios'
 
 import FoodCart from '../components/FoodCart';
 import FoodCard from '../components/FoodCard';
@@ -25,113 +26,43 @@ class Restaurant extends Component {
         this.decreaseCurrentFood = this.decreaseCurrentFood.bind(this)
 
         this.state = {
+            loading: true,
             restaurantId : 0,
-            restaurantName: "رستوران خامس",
+            restaurantName: "",
             currentFood: {},
-            restaurantImageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRPMzKKNMefX_oHZCOvcA6oIoNnpCBuMvQezi4pkiyeaaS416vz&usqp=CAU",
+            restaurantImageUrl: "",
             curIdx : 0,
-            curFoodAmount: 0,
+            curFoodCount: 0,
             dialogShow: false,
-            currentOrder : [
-                {
-                    name: "پیتزا اعلا",
-                    amount: 2,
-                    price: 32000
-                },
-                {
-                    name: "پیتزا نیمه اعلا",
-                    amount: 5,
-                    price: 12000
-                },
-                {
-                    name: "پیتزا گاهی اعلا",
-                    amount: 3,
-                    price: 27000
-                }
-
-            ],
-            menu : [
-                {
-                    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRuCDDWRv3pWM13m11d0ujznrdfAYCjTKkBDEO2_9D-a9tuJXF7&usqp=CAU",
-                    name: "پیتزا اعلا",
-                    description: "تهیه شده با مرغوب ترین مواد اولیه",
-                    score: 5, 
-                    price: 45000,
-                    status: "valid"
-                },
-                {
-                    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRuCDDWRv3pWM13m11d0ujznrdfAYCjTKkBDEO2_9D-a9tuJXF7&usqp=CAU",
-                    name: "پیتزا اعلا",
-                    description: "تهیه شده با مرغوب ترین مواد اولیه",
-                    score: 4, 
-                    price: 33000,
-                    status: "invalid"
-                },
-                {
-                    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRuCDDWRv3pWM13m11d0ujznrdfAYCjTKkBDEO2_9D-a9tuJXF7&usqp=CAU",
-                    name: "پیتزا اعلا",
-                    description: "تهیه شده با مرغوب ترین مواد اولیه",
-                    score: 5, 
-                    price: 45000,
-                    status: "valid"
-                },
-                {
-                    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRuCDDWRv3pWM13m11d0ujznrdfAYCjTKkBDEO2_9D-a9tuJXF7&usqp=CAU",
-                    name: "پیتزا اعلا",
-                    description: "تهیه شده با مرغوب ترین مواد اولیه",
-                    score: 4, 
-                    price: 12000,
-                    status: "valid"
-                },
-                {
-                    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRuCDDWRv3pWM13m11d0ujznrdfAYCjTKkBDEO2_9D-a9tuJXF7&usqp=CAU",
-                    name: "پیتزا اعلا",
-                    description: "تهیه شده با مرغوب ترین مواد اولیه",
-                    score: 5, 
-                    price: 45000,
-                    status: "valid"
-                },
-                {
-                    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRuCDDWRv3pWM13m11d0ujznrdfAYCjTKkBDEO2_9D-a9tuJXF7&usqp=CAU",
-                    name: "پیتزا اعلا",
-                    description: "تهیه شده با مرغوب ترین مواد اولیه",
-                    score: 5, 
-                    price: 45000,
-                    status: "valid"
-                },
-                {
-                    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRuCDDWRv3pWM13m11d0ujznrdfAYCjTKkBDEO2_9D-a9tuJXF7&usqp=CAU",
-                    name: "پیتزا اعلا",
-                    description: "تهیه شده با مرغوب ترین مواد اولیه",
-                    score: 5, 
-                    price: 45000,
-                    status: "valid"
-                },
-                {
-                    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRuCDDWRv3pWM13m11d0ujznrdfAYCjTKkBDEO2_9D-a9tuJXF7&usqp=CAU",
-                    name: "پیتزا اعلا",
-                    description: "تهیه شده با مرغوب ترین مواد اولیه",
-                    score: 5, 
-                    price: 45000,
-                    status: "valid"
-                }
-            ]
-
+            currentOrder : [],
+            menu : []
         }
     }
 
-    componentDidMount () {
+    componentDidMount() {
         let param = this.props.location.pathname;
-        let index = param.indexOf("/", 1) + 1
-        let restaurantId = param.substr(index)
-        this.setState({restaurantId: restaurantId}, function(){
-            // fetch info and check restaurantId validation and set current order and menu
+        let index = param.indexOf("/", 1) + 1;
+        let restaurantId = param.substr(index);
+        this.setState({restaurantId: restaurantId}, function() {
+            axios.get('http://localhost:8080/restaurant/' + this.state.restaurantId)
+            .then((response) => {
+                this.setState({
+                    restaurantName: response.data.name,
+                    restaurantId: response.data.id,
+                    restaurantImageUrl: response.data.logo,
+                    menu: response.data.menu,
+                    loading: false
+                })
+            })
+            .catch((error) => {
+                console.log(error);
+                this.props.history.push('/home');
+            });
         });
     }
     showFoodModal(index) {
-        console.log(index)
         this.setState({curIdx: index})
-        this.setState({curFoodAmount: 0})
+        this.setState({curFoodCount: 0})
         this.setState({dialogShow: true})
     }
     hideFoodModal(){
@@ -139,7 +70,7 @@ class Restaurant extends Component {
     }
 
     renderFoodCards() {
-        if (this.state.menu != null && this.state.menu != null){
+        if (this.state.menu != null && this.state.menu.length != 0){
             let menu = this.state.menu;
             let content = [];
             
@@ -167,25 +98,29 @@ class Restaurant extends Component {
     }
     increaseFood = (index) => {
         let tempOrder = this.state.currentOrder.slice()
-        tempOrder[index].amount += 1
+        tempOrder[index].count += 1
         this.setState({currentOrder: tempOrder})
         // increase
     }
     decreaseFood(index) {
         let tempOrder = this.state.currentOrder.slice()
-        tempOrder[index].amount -= 1
+        tempOrder[index].count -= 1
         this.setState({currentOrder: tempOrder})
         // decrease
     }
     increaseCurrentFood() {
-        this.setState({curFoodAmount: this.state.curFoodAmount + 1})
+        this.setState({curFoodCount: this.state.curFoodCount + 1})
     }
     decreaseCurrentFood() {
-        this.setState({curFoodAmount: this.state.curFoodAmount - 1})
+        this.setState({curFoodCount: this.state.curFoodCount - 1})
+    }
+    addFoodFromModal() {
+
     }
 
     render() {
-        
+        if (this.state.loading == true)
+            return <h2>Loading...</h2>;
         return (
             <div>
                 <Navbar reservedFoods = {3} />
@@ -223,17 +158,17 @@ class Restaurant extends Component {
                 >
                     <Modal.Body class = "normalModal">
                         <div class = "foodModalTitle col">
-                            <p class="text-center">رستوران خامس</p>
+                            <p class="text-center">{this.state.restaurantName}</p>
                         </div>
                         <div class = "foodModalBody row">
                             <div class = "col-5">
-                                <img className = "modalFoodImage" src = {this.state.menu[this.state.curIdx].imageUrl} alt="food-pic"/>
+                                <img className = "modalFoodImage" src = {this.state.menu[this.state.curIdx].image} alt="food-pic"/>
                             </div>
                             <div class = "col-7">
                                 <div className = "modalFoodName row height-30">
                                     <p className = "modalFoodNameLabel"><strong>{this.state.menu[this.state.curIdx].name}</strong></p>
                                     <i className="flaticon-star modalStar"></i>
-                                    <p className = "modalFoodScore">{toPersianNum(this.state.menu[this.state.curIdx].score)}</p>
+                                    <p className = "modalFoodScore">{toPersianNum(this.state.menu[this.state.curIdx].popularity)}</p>
                                 </div>
                                 <div className = "row height-30">
                                     <p className = "modalFoodDescriptionLabel">{this.state.menu[this.state.curIdx].description}</p>
@@ -253,7 +188,7 @@ class Restaurant extends Component {
                                             <a className="plusButton" onClick={this.increaseCurrentFood}>
                                                 <i className="flaticon-plus"></i>
                                             </a>
-                                            <p className="pl-3">{toPersianNum(this.state.curFoodAmount)}</p>
+                                            <p className="pl-3">{toPersianNum(this.state.curFoodCount)}</p>
                                             <a className="minusButton" onClick={this.decreaseCurrentFood}>
                                                 <i className="flaticon-minus"></i>
                                             </a>
