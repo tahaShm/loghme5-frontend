@@ -7,6 +7,20 @@ import { BrowserRouter, Link } from 'react-router-dom'
 import Signup from './screens/Signup';
 import Profile from './screens/Profile';
 import Restaurant from './screens/Restaurant';
+import axios from 'axios';
+
+axios.get('http://localhost:8080/profile')
+  .then(function(response) {
+    localStorage.setItem('id', response.data.id)
+    localStorage.setItem('name', response.data.name)
+    localStorage.setItem('email', response.data.email)
+    localStorage.setItem('credit', response.data.credit)
+    localStorage.setItem('phoneNumber', response.data.phoneNumber)
+  })
+  .catch(function(error) {
+    console.log(error)
+  });
+
 ReactDOM.render((
   <BrowserRouter>
     <div>

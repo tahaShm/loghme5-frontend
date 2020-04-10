@@ -20,6 +20,9 @@ class Header extends Component {
         this.setState({email : this.props.email})
         this.setState({credit : this.props.credit})
     }
+    componentWillReceiveProps(nextProps) {
+        this.setState({credit: nextProps.credit});
+    }
     render() {
         if (this.props.empty === "" || this.props.empty == null || this.props.empty === false)
             return (
