@@ -21,6 +21,8 @@ class Restaurant extends Component {
         this.decreaseFood = this.decreaseFood.bind(this)
         this.showFoodModal = this.showFoodModal.bind(this)
         this.hideFoodModal = this.hideFoodModal.bind(this)
+        this.increaseCurrentFood = this.increaseCurrentFood.bind(this)
+        this.decreaseCurrentFood = this.decreaseCurrentFood.bind(this)
 
         this.state = {
             restaurantId : 0,
@@ -28,6 +30,7 @@ class Restaurant extends Component {
             currentFood: {},
             restaurantImageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRPMzKKNMefX_oHZCOvcA6oIoNnpCBuMvQezi4pkiyeaaS416vz&usqp=CAU",
             curIdx : 0,
+            curFoodAmount: 0,
             dialogShow: false,
             currentOrder : [
                 {
@@ -128,6 +131,7 @@ class Restaurant extends Component {
     showFoodModal(index) {
         console.log(index)
         this.setState({curIdx: index})
+        this.setState({curFoodAmount: 0})
         this.setState({dialogShow: true})
     }
     hideFoodModal(){
@@ -172,6 +176,12 @@ class Restaurant extends Component {
         tempOrder[index].amount -= 1
         this.setState({currentOrder: tempOrder})
         // decrease
+    }
+    increaseCurrentFood() {
+        this.setState({curFoodAmount: this.state.curFoodAmount + 1})
+    }
+    decreaseCurrentFood() {
+        this.setState({curFoodAmount: this.state.curFoodAmount - 1})
     }
 
     render() {
@@ -234,17 +244,17 @@ class Restaurant extends Component {
                            </div>
                         </div>
                         <hr class="modalFoodHr"/>
-                        <div class = "foodModalFooter">
+                        <div class = "row foodModalFooter">
                             <div class = "col-7">          
                                 <div className="d-flex ml-2 myNotFirstFood">
-                                    <div className="ml-auto p-2 bg-success"></div>
+                                    <div className="ml-auto p-2"></div>
                                     <div className="mt-2 incDecDiv">
                                         <div className="d-flex flex-row">
-                                            <a className="plusButton">
+                                            <a className="plusButton" onClick={this.increaseCurrentFood}>
                                                 <i className="flaticon-plus"></i>
                                             </a>
-                                            <p className="pl-3">{toPersianNum(0)}</p>
-                                            <a className="minusButton">
+                                            <p className="pl-3">{toPersianNum(this.state.curFoodAmount)}</p>
+                                            <a className="minusButton" onClick={this.decreaseCurrentFood}>
                                                 <i className="flaticon-minus"></i>
                                             </a>
                                         </div>
@@ -252,7 +262,7 @@ class Restaurant extends Component {
                                 </div>
                             </div>
                             <div class = "col-5">
-                                
+                                <button  type="button" className="btn modalConfirmBtn" onClick = {this.props.onButtonClick}>افزودن به سبد خرید</button>
                             </div>
                         </div>
                     </Modal.Body>

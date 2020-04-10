@@ -607,7 +607,7 @@ body {
     margin: 0 auto;
 }
 .normalModal {
-    padding: 30px;
+    padding: 15px;
     border-radius: 30px;
     background-color: #fff;
 }
@@ -656,7 +656,7 @@ body {
     text-align: start;
 }
 .modalFoodNameLabel {
-    font-size: 22px;
+    font-size: 21px;
 }
 [class^="flaticon-star modalStar"]:before, [class*=" flaticon-star modalStar"]:before,
 [class^="flaticon-star modalStar"]:after, [class*=" flaticon-star modalStar"]:after {  
@@ -677,7 +677,7 @@ body {
     margin-top: 2px;
 }
 .modalFoodPriceLabel {
-    font-size: 24px;
+    font-size: 22px;
 }
 .height-30 {
     height: 30%;
@@ -687,9 +687,18 @@ body {
 .modalFoodHr {
     width: 100%; 
     border-top: 2px dashed #ccc;
-    margin-top: -3px;
 }
 .incDecDiv {
-    background-color: yellow;
     text-align: center;
+    padding-top: 7px;
+}
+.modalConfirmBtn {
+    color: white;
+    background-color: #4ECDC4;
+    border-radius: 10px;
+    width: 100%;
+    font-size: 15px;
+    cursor: pointer;
+    margin:auto;
+    display:block;
 }
