@@ -1,9 +1,7 @@
 function toPersianNum( num, dontTrim ) {
-
     var i = 0,
 
         dontTrim = dontTrim || false,
-
         num = dontTrim ? num.toString() : num.toString().trim(),
         len = num.length,
 

@@ -269,7 +269,7 @@ class Profile extends Component {
                     size = "lg"
                     centered 
                 >
-                    <Modal.Body class = "profileModal">
+                    <Modal.Body class = "normalModal">
                         <div class = "profileModalTitle col">
                             <p class="text-center">رستوران خامس</p>
                         </div>

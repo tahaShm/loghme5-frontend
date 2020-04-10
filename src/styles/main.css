@@ -433,6 +433,7 @@ body {
 .myCartBorder {
     border-radius: 20px; 
     border: 2px dashed #c2bebe;
+    padding: 10px;
 }
 
 .plusButton {
@@ -601,15 +602,17 @@ body {
     }
 }
 
-/* ProfileModal */
+/* modal */
 .Modal {
     margin: 0 auto;
 }
-.profileModal {
+.normalModal {
     padding: 30px;
     border-radius: 30px;
     background-color: #fff;
 }
+
+/* ProfileModal */
 .profileModalTitle {
     padding: 10px;
     font-size: 24px;
@@ -638,4 +641,55 @@ body {
 }
 .modalTotalPrice {
     font-size: 14px;
+}
+
+/* food modal */
+.foodModalTitle {
+    font-size: 24px;
+}
+.modalFoodImage {
+    width: 90%;
+    border-radius: 7px;
+    text-shadow: 2px 2px;
+}
+.modalFoodName {
+    text-align: start;
+}
+.modalFoodNameLabel {
+    font-size: 22px;
+}
+[class^="flaticon-star modalStar"]:before, [class*=" flaticon-star modalStar"]:before,
+[class^="flaticon-star modalStar"]:after, [class*=" flaticon-star modalStar"]:after {  
+    margin-right: 10px;
+    margin-top: 2px;
+    padding-top: 4px;
+    color: #ffa526;
+    font-size: 16px;
+    margin-left: 8px;
+}
+.modalFoodScore {
+    margin-right: -5px;
+    font-size: 18px;
+}
+.modalFoodDescriptionLabel {
+    color: #aaaaaa;
+    font-size: 16px;
+    margin-top: 2px;
+}
+.modalFoodPriceLabel {
+    font-size: 24px;
+}
+.height-30 {
+    height: 30%;
+    padding-top: 7px;
+    padding-bottom: 0px;
+}
+.modalFoodHr {
+    width: 100%; 
+    border-top: 2px dashed #ccc;
+    margin-top: -3px;
+}
+.incDecDiv {
+    background-color: yellow;
+    text-align: center;
 }
