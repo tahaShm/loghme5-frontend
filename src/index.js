@@ -7,13 +7,15 @@ import { BrowserRouter, Link } from 'react-router-dom'
 import Signup from './screens/Signup';
 import Profile from './screens/Profile';
 import Restaurant from './screens/Restaurant';
+import Home from './screens/Home';
 ReactDOM.render((
   <BrowserRouter>
     <div>
       <Route exact path='/' component={Signup} />
       <Route exact path='/signup' component={Signup} />
       <Route exact path='/profile' component={Profile} />
-      <Route path='/restaurant/*' component={Restaurant}/>
+      <Route path='/restaurant/*' component={Restaurant} />
+      <Route exact path='/home' component={Home} />
     </div>
 </BrowserRouter>
 ), document.getElementById('root'))

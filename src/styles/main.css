@@ -702,3 +702,290 @@ body {
     margin:auto;
     display:block;
 }
+
+/* home */
+.padding-r-10 {
+    padding-right: 10px;
+}
+.padding-r-0 {
+    padding-right: 0px;
+}
+.margin-t-15 {
+    margin-top: 15px;
+}
+.margin-t-n15 {
+    margin-top: -15px;
+}
+.myHomeHeader {
+    margin-top: 60px;
+    height: 13vw;
+    background-color: #ff6b6b;
+    opacity: 0.9;
+}
+
+.myHomeHeader::after {
+    height: 13vw;
+    content: "";
+    background-image: url(../images/CoverPhoto.jpg);
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    opacity: 0.4;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    z-index: -1;   
+}
+
+.myHomeLogo {
+    display: block; 
+    position: relative; 
+    width: 7vw; 
+    top: 1vw; 
+    margin-left: auto; 
+    margin-right: auto;
+    filter: drop-shadow(0px 0px 3px #222);
+    opacity: 1;
+}
+
+.myHomeGreetingMsg {
+    position: relative;
+    color: white;
+    font-size: 150%;
+    margin-top: 25px;
+    text-align: center;
+}
+
+.mySearchCard {
+    width: 50vw; 
+    height: 4vw; 
+    border-radius: 5px; 
+    box-shadow: 0px 0px 5px rgb(85, 85, 85); 
+    margin-top: -2vw;
+}
+
+.mySearchRow {
+    margin-top: 1vw
+
+}
+
+.mySearchInp {
+    background-color: #e6e6e6;
+    border-radius: 5px;
+    height: 2vw; 
+    text-align: center; 
+    width: 100%;
+    font-size: 1.1vw;
+}
+.mySearchButton {
+    background-color: #FFE66D;
+    height: 2vw; 
+    font-size: 110%; 
+    color: #1A535C; 
+    text-align: center; 
+    width: 105%;
+    font-weight: bold;
+}
+.mySearchButton:hover {
+    background-color: rgb(250, 217, 51);
+}
+.myPartySeparator {
+    display: block;
+    margin: 0 auto;
+    background-color: #1A535C; 
+    height: 3px;
+    width: 130px;
+    margin-top: -15px;
+}
+.myHomeTitle {
+    text-align: center; 
+    margin-top: 30px; 
+    font-size: 170%; 
+    color: #1A535C;
+}
+.myRemainingTime {
+    margin: 0 auto;
+    text-align: center;
+    color: rgb(95, 145, 153); 
+    font-size: 0.8vw;
+    border-color: rgb(95, 145, 153);
+    border-radius: 4px;
+    border-width: 0.8px;
+    border-style: solid;
+    margin-top: 8px;
+    width: 8vw;
+    height: 2vw;
+}
+.timeLabelStyle {
+    margin-top: 0.5vw;
+}
+.myPartyNavCard {
+    width: 100%; 
+    height: 290px; 
+    margin-top: 20px; 
+    background-color: #F7FFF7; 
+    box-shadow: 0px 0px 4px rgb(168, 166, 166);
+}
+.partyCardWidth {
+    width: 20%
+}
+.myPartyCard {
+    width: 100%; 
+    height: 260px; 
+    margin-top: 15px;
+    box-shadow: 0px 0px 3px rgb(146, 142, 142);
+}
+.myRedLineThrough {
+    text-decoration: line-through; 
+    text-decoration-color: red;
+}
+.myRemainingFood {
+    font-size: 0.9vw; 
+    border-style: solid; 
+    border-radius: 5px; 
+    border-width: 1px; 
+    text-align: center; 
+    height: 2vw; 
+    color: rgb(148, 156, 156); 
+    background-color: #F7FFF7;
+    padding-top: 0.2vw;
+}
+.myPartyBuyBtn {
+    color: white; 
+    background-color: #4ECDC4; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    font-size: 0.9vw; 
+    width: 100%; 
+    height: 2vw; 
+    padding-top: 0px; 
+    margin-bottom: 16px;
+}
+.myPartyBuyBtn:hover {
+    background-color: #32b3aa;
+}
+.myDashedGreenLine {
+    border-top: 1px dashed #1A535C; 
+    margin-top: -10px;
+}
+.myHomeResLogo {
+    display: block; 
+    margin: 0 auto; 
+    margin-top: 10px;
+}
+.myPartyRestaurant {
+    margin-top: -15px; 
+    font-size: 1.2vw;
+
+}
+.myNormalRestaurantName {
+    text-align: center; 
+    font-weight: bold; 
+    font-size: 1.1vw; 
+    margin-top: 8px;
+}
+.myShowMenuBtn {
+    margin-top: -10px;
+    font-size: 1.1vw;
+    background-color: #FFE66D;
+    padding-bottom: 3px;
+    padding-top: 3px;
+    width: 50%;
+    height: 2.8vw;
+}
+.myShowMenuBtn:hover {
+    background-color: rgb(250, 217, 51);
+
+}
+
+@media screen and (max-width: 1300px) {
+    .myHomeHeader {
+        height: 20vw;
+    }
+    .myHomeHeader::after {
+        height: 20vw;
+    }
+    .myHomeLogo {
+        top: 2vw; 
+        width: 9vw; 
+    }
+    .myHomeGreetingMsg {
+        font-size: 100%;
+        margin-top: 35px;
+    }
+    .mySearchCard {
+        height: 6vw;
+        margin-top: -3vw; 
+    }
+    .mySearchInp {
+        height: 4vw;
+        font-size: 1.6vw;
+        width: 110%;
+    }
+    .mySearchButton {
+        height: 4vw; 
+        font-size: 1.5vw;
+    }
+    .myRemainingTime {
+        width: 12vw;
+        height: 2vw;
+        font-size: 1.1vw;
+    }
+    .myPartyNavCard {
+        height: 260px;
+    }
+    .partyCardWidth {
+        width: 22%
+    }
+    .myPartyCard {
+        height: 240px;
+    }
+}
+@media screen and (max-width: 1000px) {
+    .myHomeHeader {
+        height: 25vw;
+    }
+    .myHomeHeader::after {
+        height: 25vw;
+    }
+    .myHomeLogo {
+        top: 3vw;
+        width: 10vw; 
+    }
+    .myHomeGreetingMsg {
+        font-size: 100%;
+        margin-top: 40px;
+    }
+    .mySearchCard {
+        height: 7vw; 
+        margin-top: -3.5vw;
+    }
+    .mySearchInp {
+        height: 5vw; 
+        font-size: 1.8vw;
+        width: 110%;
+    }
+    .mySearchButton {
+        height: 5vw; 
+        font-size: 1.6vw;
+    }
+    .myRemainingTime {
+        width: 13vw;
+        height: 2.5vw;
+        font-size: 1.2vw;
+    }
+    .myPartyNavCard {
+        height: 220px;
+    }
+    .partyCardWidth {
+        width: 24%
+    }
+    .myPartyCard {
+        height: 170px;
+    }
+    .myPartyRestaurant {
+        font-size: 1.6vw;
+    }
+}
