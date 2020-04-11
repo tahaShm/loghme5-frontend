@@ -24,6 +24,7 @@ class Restaurant extends Component {
         this.hideFoodModal = this.hideFoodModal.bind(this)
         this.increaseCurrentFood = this.increaseCurrentFood.bind(this)
         this.decreaseCurrentFood = this.decreaseCurrentFood.bind(this)
+        this.addFoodFromModal = this.addFoodFromModal.bind(this)
 
         this.state = {
             loading: true,
@@ -115,7 +116,20 @@ class Restaurant extends Component {
         this.setState({curFoodCount: this.state.curFoodCount - 1})
     }
     addFoodFromModal() {
-
+        var curIdx = this.state.curIdx
+        var curFoodCount = this.state.curFoodCount
+        axios.put('http://localhost:8080/food/' + this.state.restaurantId, null, {params: {
+            foodName: this.state.menu[curIdx].name,
+            count: curFoodCount
+        }})
+            .then((response) => {
+                this.setState({currentOrder: response.data})
+                // console.log(this.state.currentOrder)
+            })
+            .catch((error) => {
+                console.log(error);
+                this.props.history.push('/home');
+            });
     }
 
     render() {
@@ -197,7 +211,7 @@ class Restaurant extends Component {
                                 </div>
                             </div>
                             <div class = "col-5">
-                                <button  type="button" className="btn modalConfirmBtn" onClick = {this.props.onButtonClick}>افزودن به سبد خرید</button>
+                                <button  type="button" className="btn modalConfirmBtn" onClick = {this.addFoodFromModal}>افزودن به سبد خرید</button>
                             </div>
                         </div>
                     </Modal.Body>
