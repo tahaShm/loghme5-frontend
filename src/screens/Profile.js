@@ -217,6 +217,7 @@ class Profile extends Component {
             console.log(error);
         });
         this.setState({foodCountInOrder: 0});
+        this.setState({showCartModal: false})
         this.forceUpdate();
     }
 
@@ -282,10 +283,10 @@ class Profile extends Component {
                             <table class="orderTable">
                                 <thead class="pTHeadModal">
                                 <tr>
-                                    <th class="col-1">ردیف</th>
-                                    <th class="col-7">نام غذا</th>
-                                    <th class="col-2">تعداد</th>
-                                    <th class="col-2">قیمت</th>
+                                    <th>ردیف</th>
+                                    <th>نام غذا</th>
+                                    <th>تعداد</th>
+                                    <th>قیمت</th>
                                 </tr>
                                 </thead>
                                 <tbody>

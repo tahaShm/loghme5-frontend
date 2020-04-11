@@ -17,7 +17,7 @@ class PartyFoodCard extends Component {
         return (
             <div class="col-3 partyCardWidth">
                 <div class="card myPartyCard">
-                    <div class="row mt-2 justify-content-center">
+                    <div class="row mt-2 justify-content-center myPartyCardInfoRow">
                         <div class="col-6 mr-2">
                             <img class = "menuFoodImage w-100" src = {this.state.partyFood.food.image} alt="food-pic"/>
                         </div>

@@ -1035,3 +1035,8 @@ body {
 .myDescriptionDiv {
     margin-left: 1vw;
 }
+.spinnerDiv {	
+    position:fixed;	
+    top:50%;	
+    left:50%;	
+}

@@ -235,6 +235,7 @@ class Home extends Component {
             console.log(error);
         });
         this.setState({foodCountInOrder: 0});
+        this.setState({showCartModal: false})
         this.forceUpdate();
     }
 

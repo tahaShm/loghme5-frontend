@@ -190,6 +190,7 @@ class Restaurant extends Component {
             console.log(error);
         });
         this.setState({foodCountInOrder: 0});
+        this.setState({showCartModal: false})
         this.forceUpdate();
     }
     showCart() {
@@ -258,7 +259,7 @@ class Restaurant extends Component {
                                     <i className="flaticon-star modalStar"></i>
                                     <p className = "modalFoodScore">{toPersianNum(this.state.menu[this.state.curIdx].popularity)}</p>
                                 </div>
-                                <div className = "row height-30">
+                                <div className = "row height-30 myDescriptionDiv">
                                     <p className = "modalFoodDescriptionLabel">{this.state.menu[this.state.curIdx].description}</p>
                                 </div>
                                 <div className = "row height-30">
