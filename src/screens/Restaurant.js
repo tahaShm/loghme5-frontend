@@ -60,6 +60,14 @@ class Restaurant extends Component {
                 this.props.history.push('/home');
             });
         });
+
+        axios.get("http://localhost:8080/currentOrder")
+        .then((response) => {
+            this.setState({currentOrder: response.data})
+        })
+        .catch((error) => {
+            console.log(error);
+        });
     }
     showFoodModal(index) {
         this.setState({curIdx: index})
@@ -101,13 +109,33 @@ class Restaurant extends Component {
         let tempOrder = this.state.currentOrder.slice()
         tempOrder[index].count += 1
         this.setState({currentOrder: tempOrder})
-        // increase
+        
+        axios.put('http://localhost:8080/food/' + this.state.restaurantId, null, {params: {
+            foodName: this.state.currentOrder[index].name,
+            count: 1
+        }})
+        .then((response) => {
+            this.setState({currentOrder: response.data})
+        })
+        .catch((error) => {
+            console.log(error);
+        });
     }
     decreaseFood(index) {
         let tempOrder = this.state.currentOrder.slice()
         tempOrder[index].count -= 1
         this.setState({currentOrder: tempOrder})
-        // decrease
+        
+        axios.delete('http://localhost:8080/food/' + this.state.restaurantId, {params: {
+            foodName: this.state.currentOrder[index].name,
+            count: 1
+        }})
+        .then((response) => {
+            this.setState({currentOrder: response.data})
+        })
+        .catch((error) => {
+            console.log(error);
+        });
     }
     increaseCurrentFood() {
         this.setState({curFoodCount: this.state.curFoodCount + 1})
@@ -122,14 +150,12 @@ class Restaurant extends Component {
             foodName: this.state.menu[curIdx].name,
             count: curFoodCount
         }})
-            .then((response) => {
-                this.setState({currentOrder: response.data})
-                // console.log(this.state.currentOrder)
-            })
-            .catch((error) => {
-                console.log(error);
-                this.props.history.push('/home');
-            });
+        .then((response) => {
+            this.setState({currentOrder: response.data})
+        })
+        .catch((error) => {
+            console.log(error);
+        });
     }
 
     render() {

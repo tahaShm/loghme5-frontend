@@ -170,8 +170,7 @@ class Profile extends Component {
             })
             .then((response) => {
                 localStorage.setItem('credit', response.data);
-                this.setState({userCredit: localStorage.getItem('credit')})
-                console.log(localStorage.getItem('credit'));
+                this.setState({userCredit: localStorage.getItem('credit')});
             })
             .catch((error) => {
                 console.log(error)
@@ -245,7 +244,6 @@ class Profile extends Component {
         axios.get('http://localhost:8080/order')
             .then((response) => {
                 this.setState({orders: response.data});
-                console.log(response.data);
             })
             .catch((error) => {
                 console.log(error)

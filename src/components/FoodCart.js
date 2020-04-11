@@ -13,7 +13,6 @@ class FoodCart extends Component {
         this.setState({order : this.props.order})
     }
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps.order)
         this.setState({order: nextProps.order});
     }
     showOrderRow = (food, i) => {
@@ -39,7 +38,7 @@ class FoodCart extends Component {
         )
     }
     renderOrderRows() {
-        if (this.state.order != null && this.state.order != null){
+        if (this.state.order != null && this.state.order.length != 0){
             return (
                 <div>
                 {   
