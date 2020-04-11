@@ -11,6 +11,7 @@ import axios from 'axios'
 
 import FoodCart from '../components/FoodCart';
 import FoodCard from '../components/FoodCard';
+import calcFoodCount from '../utils/OrderCounter';
 class Restaurant extends Component {
     constructor(props) {
         super(props);
@@ -34,7 +35,8 @@ class Restaurant extends Component {
             curFoodCount: 0,
             dialogShow: false,
             currentOrder : [],
-            menu : []
+            menu : [],
+            foodCountInOrder: 0
         }
     }
 
@@ -61,7 +63,10 @@ class Restaurant extends Component {
 
         axios.get("http://localhost:8080/currentOrder")
         .then((response) => {
-            this.setState({currentOrder: response.data})
+            this.setState({
+                currentOrder: response.data,
+                foodCountInOrder: calcFoodCount(response.data)
+            })
         })
         .catch((error) => {
             console.log(error);
@@ -114,6 +119,7 @@ class Restaurant extends Component {
         }})
         .then((response) => {
             this.setState({currentOrder: response.data})
+            this.setState({foodCountInOrder: calcFoodCount(response.data)});
         })
         .catch((error) => {
             console.log(error);
@@ -133,6 +139,7 @@ class Restaurant extends Component {
         }})
         .then((response) => {
             this.setState({currentOrder: response.data})
+            this.setState({foodCountInOrder: calcFoodCount(response.data)});
         })
         .catch((error) => {
             console.log(error);
@@ -142,6 +149,8 @@ class Restaurant extends Component {
         this.setState({curFoodCount: this.state.curFoodCount + 1})
     }
     decreaseCurrentFood() {
+        if (this.state.curFoodCount < 0)
+            return;
         this.setState({curFoodCount: this.state.curFoodCount - 1})
     }
     addFoodFromModal() {
@@ -153,6 +162,7 @@ class Restaurant extends Component {
         }})
         .then((response) => {
             this.setState({currentOrder: response.data})
+            this.setState({foodCountInOrder: calcFoodCount(response.data)});
         })
         .catch((error) => {
             console.log(error);
@@ -167,6 +177,7 @@ class Restaurant extends Component {
         .catch((error) => {
             console.log(error);
         });
+        this.setState({foodCountInOrder: 0});
         this.forceUpdate();
     }
 
@@ -175,7 +186,7 @@ class Restaurant extends Component {
             return <h2>Loading...</h2>;
         return (
             <div>
-                <Navbar reservedFoods = {3} />
+                <Navbar reservedFoods = {this.state.foodCountInOrder} />
                 <Header empty = {true}/>
                 <div>
                     <img src={this.state.restaurantImageUrl} alt="restaurant logo" class="myRestaurantLogo"/>

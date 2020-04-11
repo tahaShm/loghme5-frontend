@@ -12,28 +12,35 @@ import RestaurantCard from '../components/RestaurantCard';
 import PartyFoodCard from '../components/PartyFoodCard';
 import { Redirect, withRouter } from 'react-router';
 import Axios from 'axios';
+import calcFoodCount from '../utils/OrderCounter';
+
 class Home extends Component {
     constructor(props) {
         super(props);
 
         this.showPartyFoodModal = this.showPartyFoodModal.bind(this)
         this.hidePartyFoodModal = this.hidePartyFoodModal.bind(this)
+        this.increaseCurrentFood = this.increaseCurrentFood.bind(this)
+        this.decreaseCurrentFood = this.decreaseCurrentFood.bind(this)
+        this.addPartyFoodFromModal = this.addPartyFoodFromModal.bind(this)
 
         this.state = {
             redirect: "",
             curIdx: 0,
-            curFoodAmount: 0,
+            curFoodCount: 0,
             dialogShow: false,
             restaurantLoading: true,
             partyLoading: true,
             partyFoods : [],
-            restaurants : []
+            restaurants : [],
+            currentOrder: [],
+            foodCountInOrder: 0
         }
     }
     componentDidMount () {
         this.fetchRestaurants()
         this.fetchPartyFoods()
-        
+        this.fetchCurrentOrder()
     }
 
     fetchRestaurants = () => {
@@ -62,10 +69,22 @@ class Home extends Component {
             this.props.history.push('/home');
         });
     }
+    fetchCurrentOrder = () => {
+        Axios.get('http://localhost:8080/currentOrder')
+        .then((response) => {
+            this.setState({
+                currentOrder: response.data,
+                foodCountInOrder: calcFoodCount(response.data)
+            })
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    }
 
     showPartyFoodModal (index) {
         this.setState({curIdx: index})
-        this.setState({curFoodAmount: 0})
+        this.setState({curFoodCount: 0})
         this.setState({dialogShow: true})
     }
 
@@ -83,7 +102,6 @@ class Home extends Component {
                     <PartyFoodCard partyFood = {partyFoods[index]} onButtonClick = {(e) => this.showPartyFoodModal(index)}/>
                 )
             } 
-            console.log("content:", content)
             return (
                 <Slider children = {content}/>
             )
@@ -121,13 +139,39 @@ class Home extends Component {
             )
         }
     }
+    increaseCurrentFood() {
+        if (this.state.curFoodCount == this.state.partyFoods[this.state.curIdx].food.count)
+            return;
+        this.setState({curFoodCount: this.state.curFoodCount + 1})
+    }
+    decreaseCurrentFood() {
+        if (this.state.curFoodCount == 0)
+            return;
+        this.setState({curFoodCount: this.state.curFoodCount - 1})
+    }
+    addPartyFoodFromModal() {
+        var food = this.state.partyFoods[this.state.curIdx]
+        console.log(food)
+        Axios.put('http://localhost:8080/partyFood/' + food.restaurantId, null, {params: {
+            foodName: food.food.name,
+            count: this.state.curFoodCount
+        }})
+        .then((response) => {
+            this.setState({currentOrder: response.data})
+            this.setState({foodCountInOrder: this.state.currentOrder.length});
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+        this.hidePartyFoodModal();
+    }
 
     render() { 
         if (this.state.restaurantLoading === true || this.state.partyLoading === true ) 
             return <h2>Loading...</h2>
         return (
             <div>
-                <Navbar reservedFoods = {3} />
+                <Navbar reservedFoods = {this.state.foodCountInOrder} />
                 <HomeHeader />
                 <div>
                     <p class="myHomeTitle">جشن غذا!</p>
@@ -159,7 +203,7 @@ class Home extends Component {
                 >
                     <Modal.Body class = "normalModal">
                         <div class = "foodModalTitle col">
-                            <p class="text-center">رستوران خامس</p>
+                            <p class="text-center">{this.state.partyFoods[this.state.curIdx].restaurantName}</p>
                         </div>
                         <div class = "foodModalBody row">
                             <div class = "col-5">
@@ -194,7 +238,7 @@ class Home extends Component {
                                             <a className="plusButton" onClick={this.increaseCurrentFood}>
                                                 <i className="flaticon-plus"></i>
                                             </a>
-                                            <p className="pl-3">{toPersianNum(this.state.curFoodAmount)}</p>
+                                            <p className="pl-3">{toPersianNum(this.state.curFoodCount)}</p>
                                             <a className="minusButton" onClick={this.decreaseCurrentFood}>
                                                 <i className="flaticon-minus"></i>
                                             </a>
@@ -203,7 +247,7 @@ class Home extends Component {
                                 </div>
                             </div>
                             <div class = "col-5">
-                                <button  type="button" className="btn modalConfirmBtn" onClick = {this.props.onButtonClick}>افزودن به سبد خرید</button>
+                                <button  type="button" className="btn modalConfirmBtn" onClick = {this.addPartyFoodFromModal}>افزودن به سبد خرید</button>
                             </div>
                         </div>
                     </Modal.Body>

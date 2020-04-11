@@ -9,6 +9,7 @@ import OrderRow from '../components/OrderRow'
 import Footer from '../components/Footer';
 import toPersianNum from '../utils/PersianNumber';
 import axios from 'axios';
+import calcFoodCount from '../utils/OrderCounter';
 
 class Profile extends Component {
     constructor(props) {
@@ -32,8 +33,24 @@ class Profile extends Component {
             wrongCredit: false,
             currentOrder: [],
             orders: [],
-            dialogShow: false
+            dialogShow: false,
+            orderInCart: []
         }
+    }
+    componentDidMount() {
+        this.fetchCurrentOrder();
+    }
+    fetchCurrentOrder = () => {
+        axios.get('http://localhost:8080/currentOrder')
+        .then((response) => {
+            this.setState({
+                orderInCart: response.data,
+                foodCountInOrder: calcFoodCount(response.data)
+            })
+        })
+        .catch((error) => {
+            console.log(error);
+        });
     }
     setCredit(event) {
         this.setState({credit: event.target.value});
