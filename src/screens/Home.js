@@ -26,107 +26,7 @@ class Home extends Component {
             dialogShow: false,
             restaurantLoading: true,
             partyLoading: true,
-            partyFoods : [
-                {
-                    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRuCDDWRv3pWM13m11d0ujznrdfAYCjTKkBDEO2_9D-a9tuJXF7&usqp=CAU",
-                    name: "پیتزا",
-                    oldPrice: 30000,
-                    newPrice: 23000,
-                    available: 4,
-                    restaurantId: "abcdefg",
-                    restaurantName: "رستوران خامس",
-                    description: "تهیه شده با بهترین مواد",
-                    score: 5
-                },
-                {
-                    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRuCDDWRv3pWM13m11d0ujznrdfAYCjTKkBDEO2_9D-a9tuJXF7&usqp=CAU",
-                    name: "پیتزا اعلا",
-                    oldPrice: 35000,
-                    newPrice: 29000,
-                    available: 2,
-                    restaurantId: "abcdefg",
-                    restaurantName: "رستوران خامس",
-                    description: "تهیه شده با بهترین مواد",
-                    score: 4
-                },
-                {
-                    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRuCDDWRv3pWM13m11d0ujznrdfAYCjTKkBDEO2_9D-a9tuJXF7&usqp=CAU",
-                    name: "پیتزا",
-                    oldPrice: 30000,
-                    newPrice: 23000,
-                    available: 4,
-                    restaurantId: "abcdefg",
-                    restaurantName: "رستوران خامس",
-                    description: "تهیه شده با بهترین مواد",
-                    score: 5
-                },
-                {
-                    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRuCDDWRv3pWM13m11d0ujznrdfAYCjTKkBDEO2_9D-a9tuJXF7&usqp=CAU",
-                    name: "پیتزا",
-                    oldPrice: 30000,
-                    newPrice: 23000,
-                    available: 4,
-                    restaurantId: "abcdefg",
-                    restaurantName: "رستوران خامس",
-                    description: "تهیه شده با بهترین مواد",
-                    score: 5
-                },
-                {
-                    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRuCDDWRv3pWM13m11d0ujznrdfAYCjTKkBDEO2_9D-a9tuJXF7&usqp=CAU",
-                    name: "پیتزا",
-                    oldPrice: 30000,
-                    newPrice: 23000,
-                    available: 4,
-                    restaurantId: "abcdefg",
-                    restaurantName: "رستوران خامس",
-                    description: "تهیه شده با بهترین مواد",
-                    score: 5
-                },
-                {
-                    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRuCDDWRv3pWM13m11d0ujznrdfAYCjTKkBDEO2_9D-a9tuJXF7&usqp=CAU",
-                    name: "پیتزا",
-                    oldPrice: 30000,
-                    newPrice: 23000,
-                    available: 4,
-                    restaurantId: "abcdefg",
-                    restaurantName: "رستوران خامس",
-                    description: "تهیه شده با بهترین مواد",
-                    score: 5
-                },
-                {
-                    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRuCDDWRv3pWM13m11d0ujznrdfAYCjTKkBDEO2_9D-a9tuJXF7&usqp=CAU",
-                    name: "پیتزا",
-                    oldPrice: 30000,
-                    newPrice: 23000,
-                    available: 4,
-                    restaurantId: "abcdefg",
-                    restaurantName: "رستوران خامس",
-                    description: "تهیه شده با بهترین مواد",
-                    score: 5
-                },
-                {
-                    imageUrl: "https://www.knijff.nl/wp-content/uploads/2019/03/KFC-Ad.jpg",
-                    name: "پیتزا",
-                    oldPrice: 30000,
-                    newPrice: 23000,
-                    available: 4,
-                    restaurantId: "abcdefg",
-                    restaurantName: "رستوران خامس",
-                    description: "تهیه شده با بهترین مواد",
-                    score: 5
-                },
-                {
-                    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRuCDDWRv3pWM13m11d0ujznrdfAYCjTKkBDEO2_9D-a9tuJXF7&usqp=CAU",
-                    name: "پیتزا اعلا",
-                    oldPrice: 35000,
-                    newPrice: 29000,
-                    available: 2,
-                    restaurantId: "abcdefg",
-                    restaurantName: "رستوران خامس",
-                    description: "تهیه شده با بهترین مواد",
-                    score: 4
-                }
-            ],
+            partyFoods : [],
             restaurants : []
         }
     }
@@ -263,20 +163,20 @@ class Home extends Component {
                         </div>
                         <div class = "foodModalBody row">
                             <div class = "col-5">
-                                <img className = "modalFoodImage" src = {this.state.partyFoods[this.state.curIdx].image} alt="food-pic"/>
+                                <img className = "modalFoodImage" src = {this.state.partyFoods[this.state.curIdx].food.image} alt="food-pic"/>
                             </div>
                             <div class = "col-7">
                                 <div className = "modalFoodName row height-30">
-                                    <p className = "modalFoodNameLabel"><strong>{this.state.partyFoods[this.state.curIdx].name}</strong></p>
+                                    <p className = "modalFoodNameLabel"><strong>{this.state.partyFoods[this.state.curIdx].food.name}</strong></p>
                                     <i className="flaticon-star modalStar"></i>
-                                    <p className = "modalFoodScore">{toPersianNum(this.state.partyFoods[this.state.curIdx].popularity)}</p>
+                                    <p className = "modalFoodScore">{toPersianNum(this.state.partyFoods[this.state.curIdx].food.popularity)}</p>
                                 </div>
                                 <div className = "row height-30">
-                                    <p className = "modalFoodDescriptionLabel">{this.state.partyFoods[this.state.curIdx].description}</p>
+                                    <p className = "modalFoodDescriptionLabel">{this.state.partyFoods[this.state.curIdx].food.description}</p>
                                 </div>
                                 <div className = "row height-30">
-                                    <p className = "modalFoodPriceLabel myRedLineThrough">{toPersianNum(this.state.partyFoods[this.state.curIdx].price)} </p>
-                                    <p className = "modalFoodPriceLabel modalFoodNewPrice">{toPersianNum(this.state.partyFoods[this.state.curIdx].newPrice)} تومان</p>
+                                    <p className = "modalFoodPriceLabel myRedLineThrough">{toPersianNum(this.state.partyFoods[this.state.curIdx].food.price)} </p>
+                                    <p className = "modalFoodPriceLabel modalFoodNewPrice">{toPersianNum(this.state.partyFoods[this.state.curIdx].food.newPrice)} تومان</p>
                                 </div>
                            </div>
                         </div>
@@ -286,7 +186,7 @@ class Home extends Component {
                                 <div className="d-flex ml-2 myNotFirstFood">
                                     <div className="ml-auto p-2">
                                         <div class="modalRemainingDiv">
-                                            <p class="modalRemainingFood">موجودی:‌ {toPersianNum(this.state.partyFoods[this.state.curIdx].count)}</p>
+                                            <p class="modalRemainingFood">موجودی:‌ {toPersianNum(this.state.partyFoods[this.state.curIdx].food.count)}</p>
                                         </div>
                                     </div>
                                     <div className="mt-2 incDecDiv">
