@@ -61,7 +61,7 @@ class FoodCart extends Component {
     }
     render() {
         return (
-            <div className="card myRestaurantCard">
+            <div className={"card myRestaurantCard " + this.props.cartModal}>
                 <div className="card-body p-2">
                     <h5 className="card-title centerText">سبد خرید</h5>
                     <hr className="myCartHr"/>

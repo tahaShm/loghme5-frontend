@@ -12,6 +12,7 @@ import RestaurantCard from '../components/RestaurantCard';
 import PartyFoodCard from '../components/PartyFoodCard';
 import { Redirect, withRouter } from 'react-router';
 import Axios from 'axios';
+import CartModal from '../components/CartModal';
 class Home extends Component {
     constructor(props) {
         super(props);
@@ -19,6 +20,7 @@ class Home extends Component {
         this.showPartyFoodModal = this.showPartyFoodModal.bind(this)
         this.hidePartyFoodModal = this.hidePartyFoodModal.bind(this)
         this.enableMessage = this.enableMessage.bind(this)
+        this.showCart = this.showCart.bind(this)
 
         this.timer = setTimeout(this.enableMessage, 1000);
 
@@ -27,6 +29,7 @@ class Home extends Component {
             curIdx: 0,
             curFoodAmount: 0,
             dialogShow: false,
+            showCartModal: false,
             restaurantLoading: true,
             partyLoading: true,
             partyFoods : [],
@@ -38,7 +41,7 @@ class Home extends Component {
     enableMessage () {
         this.setState({displayMessage: true});
     }
-    
+
     componentDidMount () {
         this.fetchRestaurants()
         this.fetchPartyFoods()
@@ -130,6 +133,9 @@ class Home extends Component {
             )
         }
     }
+    showCart() {
+        this.setState({showCartModal: true})
+    }
 
     render() { 
         if (this.state.restaurantLoading === true || this.state.partyLoading === true || this.state.displayMessage === false) 
@@ -141,7 +147,8 @@ class Home extends Component {
             )
         return (
             <div>
-                <Navbar reservedFoods = {3} />
+                <Navbar reservedFoods = {3} showCart = {this.showCart}/>
+                <CartModal show = {this.state.showCartModal}/>
                 <HomeHeader />
                 <div>
                     <p class="myHomeTitle">جشن غذا!</p>

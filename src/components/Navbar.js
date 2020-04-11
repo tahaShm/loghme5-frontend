@@ -25,7 +25,7 @@ class Navbar extends Component {
                 </div>
                 <ul className="navbar-nav mr-auto">
                     <li className="nav-item">
-                        <a className = "myNav-cartLink" href = "localhost:3000/home">
+                        <a className = "myNav-cartLink" onClick = {this.props.showCart}>
                             <i className="flaticon-smart-cart myNav-cart"></i>
                             <span className = "myNav-badgeLabel">
                                 <span className=" myNav-badge">{toPersianNum(this.state.reservedFoods)}</span>
