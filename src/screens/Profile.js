@@ -31,116 +31,7 @@ class Profile extends Component {
             userCredit: localStorage.getItem('credit'),
             wrongCredit: false,
             currentOrder: [],
-            orders: [
-                {
-                    id: 1,
-                    restaurantName: "رستوران خامس",
-                    status: "finding",
-                    orderList: [
-                        {
-                            foodName: "برگر گوشت",
-                            amount: 3,
-                            price: 30000
-                        },
-                        {
-                            foodName: "برگر مرغ",
-                            amount: 2,
-                            price: 22000
-                        }
-                    ]
-                },
-                {
-                    id: 2,
-                    restaurantName: "رستوران خامس",
-                    status: "onTheWay",
-                    orderList: [
-                        {
-                            foodName: "برگر گوشت",
-                            amount: 3,
-                            price: 30000
-                        },
-                        {
-                            foodName: "برگر مرغ",
-                            amount: 2,
-                            price: 22000
-                        }
-                    ]
-                },
-                {
-                    id: 3,
-                    restaurantName: "رستوران خامس",
-                    status: "delivered",
-                    orderList: [
-                        {
-                            foodName: "برگر گوشت",
-                            amount: 3,
-                            price: 30000
-                        },
-                        {
-                            foodName: "برگر مرغ",
-                            amount: 2,
-                            price: 22000
-                        }
-                    ]
-                },
-                {
-                    id: 4,
-                    restaurantName: "رستوران خامس",
-                    status: "delivered",
-                    orderList: [
-                        {
-                            foodName: "برگر گوشت",
-                            amount: 3,
-                            price: 30000
-                        },
-                        {
-                            foodName: "برگر مرغ",
-                            amount: 2,
-                            price: 22000
-                        },
-                        {
-                            foodName: "برگر گوشت",
-                            amount: 3,
-                            price: 30000
-                        },
-                        {
-                            foodName: "برگر مرغ",
-                            amount: 2,
-                            price: 22000
-                        },
-                        {
-                            foodName: "برگر گوشت",
-                            amount: 3,
-                            price: 30000
-                        },
-                        {
-                            foodName: "برگر مرغ",
-                            amount: 2,
-                            price: 22000
-                        },
-                        {
-                            foodName: "برگر گوشت",
-                            amount: 3,
-                            price: 30000
-                        },
-                        {
-                            foodName: "برگر مرغ",
-                            amount: 2,
-                            price: 22000
-                        },
-                        {
-                            foodName: "برگر گوشت",
-                            amount: 3,
-                            price: 30000
-                        },
-                        {
-                            foodName: "برگر مرغ",
-                            amount: 2,
-                            price: 22000
-                        }
-                    ]
-                }
-            ],
+            orders: [],
             dialogShow: false
         }
     }
@@ -215,14 +106,14 @@ class Profile extends Component {
         )
     }
     renderCurrentOrder() {
-        if (this.state.currentOrder != null && this.state.currentOrder.orderList != null){
+        if (this.state.currentOrder != null && this.state.currentOrder.foods != null){
             return (
-                this.state.currentOrder.orderList.map(function(food, i){
+                this.state.currentOrder.foods.map(function(food, i){
                     return (
                         <tr>
                             <th scope="row">{toPersianNum(i + 1)}</th>
-                            <td>{food.foodName}</td>
-                            <td>{toPersianNum(food.amount)}</td>
+                            <td>{food.name}</td>
+                            <td>{toPersianNum(food.count)}</td>
                             <td>{toPersianNum(food.price)}</td>
                         </tr>
                     )
@@ -231,11 +122,11 @@ class Profile extends Component {
     }
     calculateTotalPrice() {
         var totalPrice = 0;
-        var orderList = this.state.currentOrder.orderList;
+        var foods = this.state.currentOrder.foods;
         
-        if (orderList != null && orderList !== ""){
-            orderList.forEach(function (food) {
-                totalPrice += food.amount * food.price
+        if (foods != null && foods.length != 0){
+            foods.forEach(function (food) {
+                totalPrice += food.count * food.price
             });
         }
         return totalPrice;
@@ -302,7 +193,7 @@ class Profile extends Component {
                 >
                     <Modal.Body class = "normalModal">
                         <div class = "profileModalTitle col">
-                            <p class="text-center">رستوران خامس</p>
+                            <p class="text-center">{this.state.currentOrder.restaurantName}</p>
                         </div>
                         <hr class="profileModalHr"/>
                         <div class = "profileModalBody">
