@@ -15,6 +15,9 @@ class Navbar extends Component {
         this.setState({reservedFoods : this.props.reservedFoods})
         this.setState({userAccountField: this.props.userAccountField ? this.props.userAccountField : false})
     }
+    componentWillReceiveProps(nextProps) {
+        this.setState({reservedFoods: nextProps.reservedFoods});
+    }
     render() {
         return (
             <nav className="navbar navbar-expand-sm bg-light fixed-top">
