@@ -9,10 +9,12 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import toPersianNum from '../utils/PersianNumber';
 import axios from 'axios'
-
 import FoodCart from '../components/FoodCart';
 import FoodCard from '../components/FoodCard';
 import calcFoodCount from '../utils/OrderCounter';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 class Restaurant extends Component {
     constructor(props) {
         super(props);
@@ -178,6 +180,7 @@ class Restaurant extends Component {
         })
         .catch((error) => {
             console.log(error);
+            toast.error('همه ی غذا ها باید از یک رستوران باشند', {containerId: 'differentRestaurant'});
         });
         this.hideFoodModal();
     }
@@ -188,6 +191,7 @@ class Restaurant extends Component {
         })
         .catch((error) => {
             console.log(error);
+            toast.error('موجودی حساب شما کافی نیست.', {containerId: 'notEnoughCredit'});
         });
         this.setState({foodCountInOrder: 0});
         this.setState({showCartModal: false})
@@ -210,6 +214,9 @@ class Restaurant extends Component {
             )
         return (
             <div>
+                <ToastContainer enableMultiContainer containerId={'differentRestaurant'} type = {toast.TYPE.ERROR} position={toast.POSITION.TOP_CENTER} />
+                <ToastContainer enableMultiContainer containerId={'notEnoughCredit'} type = {toast.TYPE.ERROR} position={toast.POSITION.TOP_CENTER} />
+                
                 <Navbar reservedFoods = {this.state.foodCountInOrder} showCart = {this.showCart}  userAccountField = {true}/>
                 <CartModal currentOrder = {this.state.currentOrder} show = {this.state.showCartModal} hideModal = {this.hideCart} finalize = {this.finalizeOrder} increaseButton = {this.increaseFood} decreaseButton = {this.decreaseFood}/>
                 

@@ -12,6 +12,8 @@ import toPersianNum from '../utils/PersianNumber';
 import axios from 'axios';
 import calcFoodCount from '../utils/OrderCounter';
 import Axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 class Profile extends Component {
     constructor(props) {
@@ -215,6 +217,7 @@ class Profile extends Component {
         })
         .catch((error) => {
             console.log(error);
+            toast.error('موجودی حساب شما کافی نیست.', {containerId: 'notEnoughCredit'});
         });
         this.setState({foodCountInOrder: 0});
         this.setState({showCartModal: false})
@@ -239,6 +242,8 @@ class Profile extends Component {
         }
         return (
             <div>
+                <ToastContainer enableMultiContainer containerId={'differentRestaurant'} type = {toast.TYPE.ERROR} position={toast.POSITION.TOP_CENTER} />
+                <ToastContainer enableMultiContainer containerId={'notEnoughCredit'} type = {toast.TYPE.ERROR} position={toast.POSITION.TOP_CENTER} />
                 <Navbar reservedFoods = {this.state.foodCountInOrder} showCart = {this.showCart}/>
                 <CartModal currentOrder = {this.state.orderInCart} show = {this.state.showCartModal} hideModal = {this.hideCart} finalize = {this.finalizeOrder} increaseButton = {this.increaseFood} decreaseButton = {this.decreaseFood}/>    
                 <Header name = {localStorage.getItem('name')} phoneNumber = {localStorage.getItem('phoneNumber')} email = {localStorage.getItem('email')} credit={this.state.userCredit} />

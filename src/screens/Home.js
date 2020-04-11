@@ -14,6 +14,8 @@ import { Redirect, withRouter } from 'react-router';
 import Axios from 'axios';
 import CartModal from '../components/CartModal';
 import calcFoodCount from '../utils/OrderCounter';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 class Home extends Component {
     constructor(props) {
@@ -126,7 +128,7 @@ class Home extends Component {
     }
     redirectRestaurant = (index) => {
         let path = '/restaurant/' + this.state.restaurants[index].id;
-        this.props.history.push(path);
+        window.location.href = "http://localhost:3000" + path
     }
     renderRestaurantCards() {
         if (this.state.restaurants != null && this.state.restaurants !== ""){
@@ -185,6 +187,7 @@ class Home extends Component {
         })
         .catch((error) => {
             console.log(error);
+            toast.error('همه ی غذا ها باید از یک رستوران باشند، همچنین به تعداد موجودی نیز دقت کنید', {containerId: 'differentRestaurant'});
         });
         this.hidePartyFoodModal();
     }
@@ -233,6 +236,7 @@ class Home extends Component {
         })
         .catch((error) => {
             console.log(error);
+            toast.error('موجودی حساب شما کافی نیست.', {containerId: 'notEnoughCredit'});
         });
         this.setState({foodCountInOrder: 0});
         this.setState({showCartModal: false})
@@ -249,6 +253,8 @@ class Home extends Component {
             )
         return (
             <div>
+                <ToastContainer enableMultiContainer containerId={'differentRestaurant'} type = {toast.TYPE.ERROR} position={toast.POSITION.TOP_CENTER} />
+                <ToastContainer enableMultiContainer containerId={'notEnoughCredit'} type = {toast.TYPE.ERROR} position={toast.POSITION.TOP_CENTER} />
                 <Navbar reservedFoods = {this.state.foodCountInOrder} showCart = {this.showCart} userAccountField = {true}/>
                 <CartModal currentOrder = {this.state.currentOrder} show = {this.state.showCartModal} hideModal = {this.hideCart} finalize = {this.finalizeOrder} increaseButton = {this.increaseFood} decreaseButton = {this.decreaseFood}/>
                 <HomeHeader />
