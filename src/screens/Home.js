@@ -13,6 +13,7 @@ import PartyFoodCard from '../components/PartyFoodCard';
 import { Redirect, withRouter } from 'react-router';
 import Axios from 'axios';
 import CartModal from '../components/CartModal';
+
 class Home extends Component {
     constructor(props) {
         super(props);
@@ -78,6 +79,7 @@ class Home extends Component {
     showPartyFoodModal (index) {
         this.setState({curIdx: index})
         this.setState({curFoodAmount: 0})
+        this.setState({showCartModal: false})
         this.setState({dialogShow: true})
     }
 
