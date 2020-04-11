@@ -4,12 +4,14 @@ import { Button, Modal } from 'react-bootstrap';
 import '../styles/font/flaticon.css'
 import '../styles/main.css'
 import Navbar from '../components/Navbar';
+import CartModal from '../components/CartModal';
 import Header from '../components/Header';
 import OrderRow from '../components/OrderRow'
 import Footer from '../components/Footer';
 import toPersianNum from '../utils/PersianNumber';
 import axios from 'axios';
 import calcFoodCount from '../utils/OrderCounter';
+import Axios from 'axios';
 
 class Profile extends Component {
     constructor(props) {
@@ -21,6 +23,11 @@ class Profile extends Component {
         this.showCredit = this.showCredit.bind(this);
         this.showFactor = this.showFactor.bind(this); 
         this.hideFactor = this.hideFactor.bind(this);
+        this.increaseFood = this.increaseFood.bind(this)
+        this.decreaseFood = this.decreaseFood.bind(this)
+        this.finalizeOrder = this.finalizeOrder.bind(this)
+        this.showCart = this.showCart.bind(this)
+        this.hideCart = this.hideCart.bind(this)
 
         this.orderRef = React.createRef();
         this.creditRef = React.createRef();
@@ -30,15 +37,14 @@ class Profile extends Component {
             inOrders: true,
             credit: 0,
             userCredit: localStorage.getItem('credit'),
+            showCartModal: false,
             wrongCredit: false,
             currentOrder: [],
             orders: [],
             dialogShow: false,
-            orderInCart: []
+            orderInCart: [],
+            foodCountInOrder: 0
         }
-    }
-    componentDidMount() {
-        this.fetchCurrentOrder();
     }
     fetchCurrentOrder = () => {
         axios.get('http://localhost:8080/currentOrder')
@@ -112,6 +118,9 @@ class Profile extends Component {
     showOrder = (order, i) => {
         return  <OrderRow id = {i+1} restaurantName = {order.restaurantName} status = {order.status} onButtonClick = {(e) => this.showFactor(order)} />
     }
+    hideCart() {
+        this.setState({showCartModal: false})
+    }
     renderOrders(){
         if (this.state.orders)
         return (
@@ -149,6 +158,7 @@ class Profile extends Component {
         return totalPrice;
     }
     componentDidMount() {
+        this.fetchCurrentOrder();
         axios.get('http://localhost:8080/order')
             .then((response) => {
                 this.setState({orders: response.data});
@@ -157,6 +167,60 @@ class Profile extends Component {
                 console.log(error)
             });
     }
+
+    showCart() {
+        this.setState({showCartModal: true})
+    }
+    increaseFood = (index) => {
+        let tempOrder = this.state.orderInCart.slice()
+        tempOrder[index].count += 1
+        this.setState({orderInCart: tempOrder})
+        
+        Axios.put('http://localhost:8080/food/' + this.state.restaurantId, null, {params: {
+            foodName: this.state.orderInCart[index].name,
+            count: 1
+        }})
+        .then((response) => {
+            this.setState({orderInCart: response.data})
+            this.setState({foodCountInOrder: calcFoodCount(response.data)});
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    }
+    decreaseFood = (index) => {
+        let tempOrder = this.state.orderInCart.slice()
+        tempOrder[index].count -= 1
+        if (tempOrder[index].count < 0) {
+            return;
+        }
+        this.setState({orderInCart: tempOrder})
+        
+        Axios.delete('http://localhost:8080/food/' + this.state.restaurantId, {params: {
+            foodName: this.state.orderInCart[index].name,
+            count: 1
+        }})
+        .then((response) => {
+            this.setState({orderInCart: response.data})
+            this.setState({foodCountInOrder: calcFoodCount(response.data)});
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    }
+    finalizeOrder() {
+        Axios.put('http://localhost:8080/order')
+        .then((response) => {
+            this.setState({orderInCart: null})
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+        this.setState({foodCountInOrder: 0});
+        this.forceUpdate();
+    }
+
+
     render() {
         let rightButton = 'btn myRightTabButton';
         let leftButton = 'btn myLeftTabButton';
@@ -174,7 +238,8 @@ class Profile extends Component {
         }
         return (
             <div>
-                <Navbar reservedFoods = {3} />
+                <Navbar reservedFoods = {this.state.foodCountInOrder} showCart = {this.showCart}/>
+                <CartModal currentOrder = {this.state.orderInCart} show = {this.state.showCartModal} hideModal = {this.hideCart} finalize = {this.finalizeOrder} increaseButton = {this.increaseFood} decreaseButton = {this.decreaseFood}/>    
                 <Header name = {localStorage.getItem('name')} phoneNumber = {localStorage.getItem('phoneNumber')} email = {localStorage.getItem('email')} credit={this.state.userCredit} />
                 <div className="myTabs">
                     <div className="d-flex justify-content-center mb-n2">

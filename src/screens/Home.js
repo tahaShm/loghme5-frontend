@@ -21,7 +21,6 @@ class Home extends Component {
 
         this.showPartyFoodModal = this.showPartyFoodModal.bind(this)
         this.hidePartyFoodModal = this.hidePartyFoodModal.bind(this)
-        this.enableMessage = this.enableMessage.bind(this)
         this.increaseCurrentFood = this.increaseCurrentFood.bind(this)
         this.decreaseCurrentFood = this.decreaseCurrentFood.bind(this)
         this.addPartyFoodFromModal = this.addPartyFoodFromModal.bind(this)
@@ -29,6 +28,8 @@ class Home extends Component {
         this.decreaseFood = this.decreaseFood.bind(this)
         this.finalizeOrder = this.finalizeOrder.bind(this)
         this.showCart = this.showCart.bind(this)
+        this.hideCart = this.hideCart.bind(this)
+        this.enableMessage = this.enableMessage.bind(this)
 
         this.timer = setTimeout(this.enableMessage, 1000);
 
@@ -100,7 +101,6 @@ class Home extends Component {
     showPartyFoodModal (index) {
         this.setState({curIdx: index})
         this.setState({curFoodAmount: 0})
-        this.setState({showCartModal: false})
         this.setState({curFoodCount: 0})
         this.setState({dialogShow: true})
     }
@@ -158,6 +158,9 @@ class Home extends Component {
     }
     showCart() {
         this.setState({showCartModal: true})
+    }
+    hideCart() {
+        this.setState({showCartModal: false})
     }
     increaseCurrentFood() {
         if (this.state.curFoodCount == this.state.partyFoods[this.state.curIdx].food.count)
@@ -245,8 +248,8 @@ class Home extends Component {
             )
         return (
             <div>
-                <Navbar reservedFoods = {this.state.foodCountInOrder} showCart = {this.showCart}/>
-                <CartModal currentOrder = {this.state.currentOrder} show = {this.state.showCartModal} finalize = {this.finalizeOrder} increaseButton = {this.increaseFood} decreaseButton = {this.decreaseFood}/>
+                <Navbar reservedFoods = {this.state.foodCountInOrder} showCart = {this.showCart} userAccountField = {true}/>
+                <CartModal currentOrder = {this.state.currentOrder} show = {this.state.showCartModal} hideModal = {this.hideCart} finalize = {this.finalizeOrder} increaseButton = {this.increaseFood} decreaseButton = {this.decreaseFood}/>
                 <HomeHeader />
                 <div>
                     <p class="myHomeTitle">جشن غذا!</p>

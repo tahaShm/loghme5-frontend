@@ -30,7 +30,7 @@ class CartModal extends Component {
         return (
             <Modal 
                 show={this.state.show} 
-                onHide={this.hideModal}
+                onHide={this.props.hideModal}
                 size="sm"
                 centered 
             >

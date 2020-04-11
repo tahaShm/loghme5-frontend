@@ -524,7 +524,7 @@ body {
     margin-left: auto;
     margin-right: auto;
     width: 10vw;
-    height: 10vw;
+    height: 8vw;
     border-radius: 10px;
 }
 
@@ -576,6 +576,9 @@ body {
     .myRestaurantContainer {
         margin-top: 13vw;
     }
+    .menuStarLabel {
+        font-size: 10px;
+    }
 }
 @media screen and (max-width: 1000px) {
     .myRestaurantLogo {
@@ -592,7 +595,7 @@ body {
     }
     .foodNameLabel {
         padding-top: 2px;
-        font-size: 13px;
+        font-size: 9px;
     }
     .menuFoodPrice {
         font-size: 11px;
@@ -600,6 +603,9 @@ body {
     .addToCartButton, .outOfOrderButton {
         font-size: 9px;
         font-weight: bold;
+    }
+    .menuStarLabel {
+        font-size: 9px;
     }
 }
 
@@ -839,7 +845,7 @@ body {
 }
 .myPartyNavCard {
     width: 100%; 
-    height: 290px; 
+    height: 300px; 
     margin-top: 20px; 
     background-color: #F7FFF7; 
     box-shadow: 0px 0px 4px rgb(168, 166, 166);
@@ -892,6 +898,7 @@ body {
     margin-top: 10px;
     width: 50%;
     height: 9vw;
+    width: 9vw;
 }
 .myPartyRestaurant {
     margin-top: -15px; 
@@ -916,6 +923,9 @@ body {
 .myShowMenuBtn:hover {
     background-color: rgb(250, 217, 51);
 
+}
+.myPartyCardInfoRow {
+    min-height: 8vw;
 }
 
 @media screen and (max-width: 1300px) {
@@ -959,6 +969,13 @@ body {
     }
     .myPartyCard {
         height: 240px;
+    }
+    .myPartyCardInfoRow {
+        min-height: 9vw;
+    }
+    .myHomeResLogo {
+        height: 10vw;
+        width: 10vw;
     }
 }
 @media screen and (max-width: 1000px) {
@@ -1006,9 +1023,15 @@ body {
     .myPartyRestaurant {
         font-size: 1.6vw;
     }
+    .myPartyCardInfoRow {
+        min-height: 10vw;
+    }
+    .myHomeResLogo {
+        
+        height: 12vw;
+        width: 12vw;
+    }
 }
-.spinnerDiv {
-    position:fixed;
-    top:50%;
-    left:50%;
+.myDescriptionDiv {
+    margin-left: 1vw;
 }

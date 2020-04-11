@@ -22,7 +22,7 @@ class Navbar extends Component {
         return (
             <nav className="navbar navbar-expand-sm bg-light fixed-top">
                 <div className="mx-3">
-                    <a className="navbar-brand" href="./restaurant.html">
+                    <a className="navbar-brand" href="./home">
                         <img className = "myNav-logo" src={Logo} alt="logo"/>
                     </a>
                 </div>
@@ -37,11 +37,11 @@ class Navbar extends Component {
                     </li>
                     {this.state.userAccountField &&
                         <li className="nav-item">
-                            <a className="nav-link myNav-account" href="./profileOrders.html">حساب کاربری</a>
+                            <a className="nav-link myNav-account" href="./profile">حساب کاربری</a>
                         </li>
                     }
                     <li className="nav-item mx-3">
-                        <a className="nav-link myNav-exit" href="./signup.html">خروج</a>
+                        <a className="nav-link myNav-exit" href="">خروج</a>
                     </li>
                 </ul>
             </nav>

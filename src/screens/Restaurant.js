@@ -4,6 +4,7 @@ import { Button, Modal, Image, Spinner } from 'react-bootstrap';
 import '../styles/font/flaticon.css'
 import '../styles/main.css'
 import Navbar from '../components/Navbar';
+import CartModal from '../components/CartModal';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import toPersianNum from '../utils/PersianNumber';
@@ -24,6 +25,8 @@ class Restaurant extends Component {
         this.decreaseCurrentFood = this.decreaseCurrentFood.bind(this)
         this.addFoodFromModal = this.addFoodFromModal.bind(this)
         this.finalizeOrder = this.finalizeOrder.bind(this)
+        this.showCart = this.showCart.bind(this)
+        this.hideCart = this.hideCart.bind(this)
         this.enableMessage = this.enableMessage.bind(this)
 
         this.timer = setTimeout(this.enableMessage, 1000);
@@ -37,6 +40,7 @@ class Restaurant extends Component {
             curIdx : 0,
             curFoodCount: 0,
             dialogShow: false,
+            showCartModal: false,
             currentOrder : [],
             menu : [],
             displayMessage: false,
@@ -188,6 +192,12 @@ class Restaurant extends Component {
         this.setState({foodCountInOrder: 0});
         this.forceUpdate();
     }
+    showCart() {
+        this.setState({showCartModal: true})
+    }
+    hideCart() {
+        this.setState({showCartModal: false})
+    }
 
     render() {
         if (this.state.loading === true || this.state.displayMessage === false)
@@ -199,7 +209,9 @@ class Restaurant extends Component {
             )
         return (
             <div>
-                <Navbar reservedFoods = {this.state.foodCountInOrder} />
+                <Navbar reservedFoods = {this.state.foodCountInOrder} showCart = {this.showCart}  userAccountField = {true}/>
+                <CartModal currentOrder = {this.state.currentOrder} show = {this.state.showCartModal} hideModal = {this.hideCart} finalize = {this.finalizeOrder} increaseButton = {this.increaseFood} decreaseButton = {this.decreaseFood}/>
+                
                 <Header empty = {true}/>
                 <div>
                     <img src={this.state.restaurantImageUrl} alt="restaurant logo" class="myRestaurantLogo"/>
