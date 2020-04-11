@@ -6,21 +6,23 @@ import '../styles/main.css'
 import Navbar from '../components/Navbar';
 import HomeHeader from '../components/HomeHeader';
 import Footer from '../components/Footer';
-import ResImg from '../images/KFC_logo.png'
-import FoodImg from '../images/pizza.jpg'
 import Slider from '../components/Slider';
 import toPersianNum from '../utils/PersianNumber';
 import RestaurantCard from '../components/RestaurantCard';
 import PartyFoodCard from '../components/PartyFoodCard';
 import { Redirect, withRouter } from 'react-router';
-import Profile from './Profile';
-import { Link } from 'react-router-dom';
 class Home extends Component {
     constructor(props) {
         super(props);
 
-         this.state = {
+        this.showPartyFoodModal = this.showPartyFoodModal.bind(this)
+        this.hidePartyFoodModal = this.hidePartyFoodModal.bind(this)
+
+        this.state = {
             redirect: "",
+            curIdx: 0,
+            curFoodAmount: 0,
+            dialogShow: false,
             partyFoods : [
                 {
                     imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRuCDDWRv3pWM13m11d0ujznrdfAYCjTKkBDEO2_9D-a9tuJXF7&usqp=CAU",
@@ -181,6 +183,16 @@ class Home extends Component {
         
     }
 
+    showPartyFoodModal (index) {
+        this.setState({curIdx: index})
+        this.setState({curFoodAmount: 0})
+        this.setState({dialogShow: true})
+    }
+
+    hidePartyFoodModal(){
+        this.setState({dialogShow: false})
+    }
+
     renderPartyFoods() {
         if (this.state.partyFoods != null && this.state.partyFoods !== ""){
             let partyFoods = this.state.partyFoods;
@@ -188,7 +200,7 @@ class Home extends Component {
             
             for (let index = 0; index < partyFoods.length; index++) { 
                 content.push(
-                    <PartyFoodCard partyFood = {partyFoods[index]} />
+                    <PartyFoodCard partyFood = {partyFoods[index]} onButtonClick = {(e) => this.showPartyFoodModal(index)}/>
                 )
             } 
             console.log("content:", content)
@@ -257,6 +269,63 @@ class Home extends Component {
                     {this.renderRestaurantCards()}
                 </div>
                 <Footer />
+
+                <Modal 
+                    show={this.state.dialogShow} 
+                    onHide={this.hidePartyFoodModal}
+                    centered 
+                >
+                    <Modal.Body class = "normalModal">
+                        <div class = "foodModalTitle col">
+                            <p class="text-center">رستوران خامس</p>
+                        </div>
+                        <div class = "foodModalBody row">
+                            <div class = "col-5">
+                                <img className = "modalFoodImage" src = {this.state.partyFoods[this.state.curIdx].imageUrl} alt="food-pic"/>
+                            </div>
+                            <div class = "col-7">
+                                <div className = "modalFoodName row height-30">
+                                    <p className = "modalFoodNameLabel"><strong>{this.state.partyFoods[this.state.curIdx].name}</strong></p>
+                                    <i className="flaticon-star modalStar"></i>
+                                    <p className = "modalFoodScore">{toPersianNum(this.state.partyFoods[this.state.curIdx].score)}</p>
+                                </div>
+                                <div className = "row height-30">
+                                    <p className = "modalFoodDescriptionLabel">{this.state.partyFoods[this.state.curIdx].description}</p>
+                                </div>
+                                <div className = "row height-30">
+                                    <p className = "modalFoodPriceLabel myRedLineThrough">{toPersianNum(this.state.partyFoods[this.state.curIdx].oldPrice)} </p>
+                                    <p className = "modalFoodPriceLabel modalFoodNewPrice">{toPersianNum(this.state.partyFoods[this.state.curIdx].newPrice)} تومان</p>
+                                </div>
+                           </div>
+                        </div>
+                        <hr class="modalFoodHr"/>
+                        <div class = "row foodModalFooter">
+                            <div class = "col-7">          
+                                <div className="d-flex ml-2 myNotFirstFood">
+                                    <div className="ml-auto p-2">
+                                        <div class="modalRemainingDiv">
+                                            <p class="modalRemainingFood">موجودی:‌ {toPersianNum(this.state.partyFoods[this.state.curIdx].available)}</p>
+                                        </div>
+                                    </div>
+                                    <div className="mt-2 incDecDiv">
+                                        <div className="d-flex flex-row">
+                                            <a className="plusButton" onClick={this.increaseCurrentFood}>
+                                                <i className="flaticon-plus"></i>
+                                            </a>
+                                            <p className="pl-3">{toPersianNum(this.state.curFoodAmount)}</p>
+                                            <a className="minusButton" onClick={this.decreaseCurrentFood}>
+                                                <i className="flaticon-minus"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class = "col-5">
+                                <button  type="button" className="btn modalConfirmBtn" onClick = {this.props.onButtonClick}>افزودن به سبد خرید</button>
+                            </div>
+                        </div>
+                    </Modal.Body>
+                </Modal>
             </div>
         )
     }

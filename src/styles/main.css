@@ -679,6 +679,9 @@ body {
 .modalFoodPriceLabel {
     font-size: 22px;
 }
+.modalFoodNewPrice{
+    margin-right: 15px;
+}
 .height-30 {
     height: 30%;
     padding-top: 7px;
@@ -701,6 +704,18 @@ body {
     cursor: pointer;
     margin:auto;
     display:block;
+}
+.modalRemainingFood {
+    font-size: 15px; 
+    border-style: solid; 
+    border-radius: 7px; 
+    border-width: 1px; 
+    text-align: center; 
+    height: 30px; 
+    color: rgb(148, 156, 156); 
+    background-color: #F7FFF7;
+    margin-top: 5px;
+    padding: 5px 15px 0px 15px;
 }
 
 /* home */
