@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button, Modal, Image } from 'react-bootstrap';
+import { Button, Modal, Image, Spinner } from 'react-bootstrap';
 import '../styles/font/flaticon.css'
 import '../styles/main.css'
 import Navbar from '../components/Navbar';
@@ -23,6 +23,9 @@ class Restaurant extends Component {
         this.decreaseCurrentFood = this.decreaseCurrentFood.bind(this)
         this.addFoodFromModal = this.addFoodFromModal.bind(this)
         this.finalizeOrder = this.finalizeOrder.bind(this)
+        this.enableMessage = this.enableMessage.bind(this)
+
+        this.timer = setTimeout(this.enableMessage, 1000);
 
         this.state = {
             loading: true,
@@ -34,8 +37,13 @@ class Restaurant extends Component {
             curFoodCount: 0,
             dialogShow: false,
             currentOrder : [],
-            menu : []
+            menu : [],
+            displayMessage: false
         }
+    }
+
+    enableMessage () {
+        this.setState({displayMessage: true});
     }
 
     componentDidMount() {
@@ -171,8 +179,13 @@ class Restaurant extends Component {
     }
 
     render() {
-        if (this.state.loading == true)
-            return <h2>Loading...</h2>;
+        if (this.state.loading === true || this.state.displayMessage === false)
+            return (
+                <div id ="center" className="spinnerDiv">
+                    <Spinner animation="border" variant="success" />
+                </div>
+                
+            )
         return (
             <div>
                 <Navbar reservedFoods = {3} />

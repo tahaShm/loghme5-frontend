@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button, Modal, Image } from 'react-bootstrap';
+import { Button, Modal, Image, Spinner } from 'react-bootstrap';
 import '../styles/font/flaticon.css'
 import '../styles/main.css'
 import Navbar from '../components/Navbar';
@@ -18,6 +18,9 @@ class Home extends Component {
 
         this.showPartyFoodModal = this.showPartyFoodModal.bind(this)
         this.hidePartyFoodModal = this.hidePartyFoodModal.bind(this)
+        this.enableMessage = this.enableMessage.bind(this)
+
+        this.timer = setTimeout(this.enableMessage, 1000);
 
         this.state = {
             redirect: "",
@@ -27,9 +30,15 @@ class Home extends Component {
             restaurantLoading: true,
             partyLoading: true,
             partyFoods : [],
-            restaurants : []
+            restaurants : [],
+            displayMessage: false
         }
     }
+
+    enableMessage () {
+        this.setState({displayMessage: true});
+    }
+    
     componentDidMount () {
         this.fetchRestaurants()
         this.fetchPartyFoods()
@@ -123,8 +132,13 @@ class Home extends Component {
     }
 
     render() { 
-        if (this.state.restaurantLoading === true || this.state.partyLoading === true ) 
-            return <h2>Loading...</h2>
+        if (this.state.restaurantLoading === true || this.state.partyLoading === true || this.state.displayMessage === false) 
+            return (
+                <div id ="center" className="spinnerDiv">
+                    <Spinner animation="border" variant="success" />
+                </div>
+                
+            )
         return (
             <div>
                 <Navbar reservedFoods = {3} />

@@ -1007,3 +1007,8 @@ body {
         font-size: 1.6vw;
     }
 }
+.spinnerDiv {
+    position:fixed;
+    top:50%;
+    left:50%;
+}
