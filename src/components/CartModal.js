@@ -11,45 +11,15 @@ class CartModal extends Component {
 
         this.state = {
             show: false,
-            currentOrder: [
-                {
-                    name: "غذا 1",
-                    count: 3,
-                    price: 12000
-                },
-                {
-                    name: "غذا 1",
-                    count: 3,
-                    price: 12000
-                },
-                {
-                    name: "غذا 1",
-                    count: 3,
-                    price: 12000
-                },
-                {
-                    name: "غذا 1",
-                    count: 3,
-                    price: 12000
-                },
-                {
-                    name: "غذا 1",
-                    count: 3,
-                    price: 12000
-                },
-                {
-                    name: "غذا 1",
-                    count: 3,
-                    price: 12000
-                },
-            ]
         }
     }
     componentDidMount() {
         this.setState({show : this.props.show})
+        this.setState({currentOrder : this.props.currentOrder})
     }
     componentWillReceiveProps(nextProps) {
         this.setState({show: nextProps.show});
+        this.setState({currentOrder : this.props.currentOrder})
     }
 
     hideModal() {
@@ -65,7 +35,7 @@ class CartModal extends Component {
                 centered 
             >
             <div className = "bg-success">    
-                <FoodCart cartModal = {"mt-0"} order = {this.state.currentOrder} finalize = {this.finalizeOrder} increaseButton = {this.increaseFood} decreaseButton = {this.decreaseFood} />   
+                <FoodCart cartModal = {"mt-0"} order = {this.state.currentOrder} finalize = {this.props.finalize} increaseButton = {this.props.increaseButton} decreaseButton = {this.props.decreaseButton} />   
             </div>
             </Modal>
         )

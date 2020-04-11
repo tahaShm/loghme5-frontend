@@ -25,6 +25,9 @@ class Home extends Component {
         this.increaseCurrentFood = this.increaseCurrentFood.bind(this)
         this.decreaseCurrentFood = this.decreaseCurrentFood.bind(this)
         this.addPartyFoodFromModal = this.addPartyFoodFromModal.bind(this)
+        this.increaseFood = this.increaseFood.bind(this)
+        this.decreaseFood = this.decreaseFood.bind(this)
+        this.finalizeOrder = this.finalizeOrder.bind(this)
         this.showCart = this.showCart.bind(this)
 
         this.timer = setTimeout(this.enableMessage, 1000);
@@ -183,6 +186,55 @@ class Home extends Component {
         this.hidePartyFoodModal();
     }
 
+    increaseFood = (index) => {
+        let tempOrder = this.state.currentOrder.slice()
+        tempOrder[index].count += 1
+        this.setState({currentOrder: tempOrder})
+        
+        Axios.put('http://localhost:8080/food/' + this.state.restaurantId, null, {params: {
+            foodName: this.state.currentOrder[index].name,
+            count: 1
+        }})
+        .then((response) => {
+            this.setState({currentOrder: response.data})
+            this.setState({foodCountInOrder: calcFoodCount(response.data)});
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    }
+    decreaseFood = (index) => {
+        let tempOrder = this.state.currentOrder.slice()
+        tempOrder[index].count -= 1
+        if (tempOrder[index].count < 0) {
+            return;
+        }
+        this.setState({currentOrder: tempOrder})
+        
+        Axios.delete('http://localhost:8080/food/' + this.state.restaurantId, {params: {
+            foodName: this.state.currentOrder[index].name,
+            count: 1
+        }})
+        .then((response) => {
+            this.setState({currentOrder: response.data})
+            this.setState({foodCountInOrder: calcFoodCount(response.data)});
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    }
+    finalizeOrder() {
+        Axios.put('http://localhost:8080/order')
+        .then((response) => {
+            this.setState({currentOrder: null})
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+        this.setState({foodCountInOrder: 0});
+        this.forceUpdate();
+    }
+
     render() { 
         if (this.state.restaurantLoading === true || this.state.partyLoading === true || this.state.displayMessage === false) 
             return (
@@ -194,7 +246,7 @@ class Home extends Component {
         return (
             <div>
                 <Navbar reservedFoods = {this.state.foodCountInOrder} showCart = {this.showCart}/>
-                <CartModal show = {this.state.showCartModal}/>
+                <CartModal currentOrder = {this.state.currentOrder} show = {this.state.showCartModal} finalize = {this.finalizeOrder} increaseButton = {this.increaseFood} decreaseButton = {this.decreaseFood}/>
                 <HomeHeader />
                 <div>
                     <p class="myHomeTitle">جشن غذا!</p>
@@ -218,7 +270,7 @@ class Home extends Component {
                     {this.renderRestaurantCards()}
                 </div>
                 <Footer />
-
+                {this.state.partyFoods.length > 0 && 
                 <Modal 
                     show={this.state.dialogShow} 
                     onHide={this.hidePartyFoodModal}
@@ -274,7 +326,7 @@ class Home extends Component {
                             </div>
                         </div>
                     </Modal.Body>
-                </Modal>
+                </Modal>}
             </div>
         )
     }
