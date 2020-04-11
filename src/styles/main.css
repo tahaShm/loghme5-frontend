@@ -523,7 +523,8 @@ body {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    width: 50%;
+    width: 10vw;
+    height: 10vw;
     border-radius: 10px;
 }
 
@@ -848,7 +849,7 @@ body {
 }
 .myPartyCard {
     width: 100%; 
-    height: 260px; 
+    height: 270px; 
     margin-top: 15px;
     box-shadow: 0px 0px 3px rgb(146, 142, 142);
 }
@@ -889,6 +890,8 @@ body {
     display: block; 
     margin: 0 auto; 
     margin-top: 10px;
+    width: 50%;
+    height: 9vw;
 }
 .myPartyRestaurant {
     margin-top: -15px; 
@@ -949,7 +952,7 @@ body {
         font-size: 1.1vw;
     }
     .myPartyNavCard {
-        height: 260px;
+        height: 270px;
     }
     .partyCardWidth {
         width: 22%
@@ -992,13 +995,13 @@ body {
         font-size: 1.2vw;
     }
     .myPartyNavCard {
-        height: 220px;
+        height: 26vw;
     }
     .partyCardWidth {
         width: 24%
     }
     .myPartyCard {
-        height: 170px;
+        height: 22vw;
     }
     .myPartyRestaurant {
         font-size: 1.6vw;

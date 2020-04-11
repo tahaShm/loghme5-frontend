@@ -12,6 +12,10 @@ class FoodCart extends Component {
     componentDidMount() {
         this.setState({order : this.props.order})
     }
+    componentWillReceiveProps(nextProps) {
+        console.log(nextProps.order)
+        this.setState({order: nextProps.order});
+    }
     showOrderRow = (food, i) => {
         return (
             <div>
@@ -22,7 +26,7 @@ class FoodCart extends Component {
                             <a className="plusButton" onClick={() => this.props.increaseButton(i)}>
                                 <i className="flaticon-plus"></i>
                             </a>
-                            <p className="pl-3">{toPersianNum(food.amount)}</p>
+                            <p className="pl-3">{toPersianNum(food.count)}</p>
                             <a className="minusButton" onClick={() => this.props.decreaseButton(i)}>
                                 <i className="flaticon-minus"></i>
                             </a>
@@ -51,7 +55,7 @@ class FoodCart extends Component {
         
         if (orderList != null && orderList !== ""){
             orderList.forEach(function (food) {
-                totalPrice += food.amount * food.price
+                totalPrice += food.count * food.price
             });
         }
         return totalPrice;

@@ -19,13 +19,13 @@ class PartyFoodCard extends Component {
                 <div class="card myPartyCard">
                     <div class="row mt-2 justify-content-center">
                         <div class="col-6 mr-2">
-                            <img class = "menuFoodImage w-100" src = {this.state.partyFood.imageUrl} alt="food-pic"/>
+                            <img class = "menuFoodImage w-100" src = {this.state.partyFood.image} alt="food-pic"/>
                         </div>
                         <div class="col-5 ml-1 padding-r-0">
                             <div class = "foodName">
                                 <p class = "foodNameLabel d-flex"><strong>{this.state.partyFood.name}</strong></p>
                                 <div class = "d-flex margin-t-15">
-                                    <p class = "menuStarLabel">{toPersianNum(this.state.partyFood.score)}</p>
+                                    <p class = "menuStarLabel">{toPersianNum(this.state.partyFood.popularity)}</p>
                                     <i class="flaticon-star menuStarIcon"></i>
                                 </div>
                             </div>
@@ -34,7 +34,7 @@ class PartyFoodCard extends Component {
                     <div class="container">
                         <div class="row mt-1 justify-content-around">
                             <div class="col-6 pl-0">
-                                <p class = "menuFoodPrice myRedLineThrough">{toPersianNum(this.state.partyFood.oldPrice)}</p>
+                                <p class = "menuFoodPrice myRedLineThrough">{toPersianNum(this.state.partyFood.price)}</p>
                             </div>
                             <div class="col-6 pr-0">
                                 <p class = "menuFoodPrice">{toPersianNum(this.state.partyFood.newPrice)}</p>
@@ -44,7 +44,7 @@ class PartyFoodCard extends Component {
                     <div class="container">
                         <div class="row justify-content-around">
                             <div class="col-6 pl-1">
-                                <p class="myRemainingFood">موجودی:‌ {toPersianNum(this.state.partyFood.available)}</p>
+                                <p class="myRemainingFood">موجودی:‌ {toPersianNum(this.state.partyFood.count)}</p>
                             </div>
                             <div class="col-6 pr-1">
                                 <button type="button" class="btn myPartyBuyBtn" onClick = {this.props.onButtonClick}>خرید</button>

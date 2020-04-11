@@ -16,8 +16,8 @@ class RestaurantCard extends Component {
         return (
             <div class="col-3">
                 <div class="card myPartyCard">
-                    <img src={this.state.info.imageUrl} alt = "restaurant pic" width="50%" class="myHomeResLogo"/>
-                    <p class="myNormalRestaurantName">Khames Fried Chicken</p>
+                    <img src={this.state.info.logo} alt = "restaurant pic"  class="myHomeResLogo"/>
+                    <p class="myNormalRestaurantName">{this.state.info.name}</p>
                     <div class="text-center">
                         <button type="button" class="btn myShowMenuBtn" onClick = {this.props.onButtonClick}>نمایش منو</button>
                     </div>

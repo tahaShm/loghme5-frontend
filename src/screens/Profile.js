@@ -8,6 +8,7 @@ import Header from '../components/Header';
 import OrderRow from '../components/OrderRow'
 import Footer from '../components/Footer';
 import toPersianNum from '../utils/PersianNumber';
+import axios from 'axios';
 
 class Profile extends Component {
     constructor(props) {
@@ -26,7 +27,8 @@ class Profile extends Component {
 
         this.state = {
             inOrders: true,
-            credit: '',
+            credit: 0,
+            userCredit: localStorage.getItem('credit'),
             wrongCredit: false,
             currentOrder: [],
             orders: [
@@ -149,12 +151,33 @@ class Profile extends Component {
         this.creditInputRef.current.placeholder = "میزان افزایش اعتبار"
     }
     handleIncreaseCredit(event) {
-        if (this.state.credit == null || this.state.credit === '') {
+        if (this.state.credit == null || this.state.credit === '' || isNaN(this.state.credit)) {
             this.setState({wrongCredit: true})
+            this.setState({credit: ""})
             this.creditInputRef.current.style.borderColor = 'red';
-            this.creditInputRef.current.placeholder = 'میزان افزایش اعتبار را مشخص کنید!';
+            if (isNaN(this.state.credit))
+                this.creditInputRef.current.placeholder = 'اعتبار باید یک عدد باشد!';
+            else
+                this.creditInputRef.current.placeholder = 'میزان افزایش اعتبار را مشخص کنید!';
         }
-        //send increase value to server and fetch response
+        
+        axios({
+            method: 'post',
+            url: 'http://localhost:8080/credit',
+            data: {
+                credit: this.state.credit
+            }
+            })
+            .then((response) => {
+                localStorage.setItem('credit', response.data);
+                this.setState({userCredit: localStorage.getItem('credit')})
+                console.log(localStorage.getItem('credit'));
+            })
+            .catch((error) => {
+                console.log(error)
+            });
+
+        this.setState({credit: 0});
     }
     showOrders() {
         this.setState({inOrders: true})
@@ -180,7 +203,7 @@ class Profile extends Component {
         this.setState({dialogShow: false})
     }
     showOrder = (order, i) => {
-        return  <OrderRow id = {order.id} restaurantName = {order.restaurantName} status = {order.status} onButtonClick = {(e) => this.showFactor(order)} />
+        return  <OrderRow id = {i+1} restaurantName = {order.restaurantName} status = {order.status} onButtonClick = {(e) => this.showFactor(order)} />
     }
     renderOrders(){
         if (this.state.orders)
@@ -218,6 +241,16 @@ class Profile extends Component {
         }
         return totalPrice;
     }
+    componentDidMount() {
+        axios.get('http://localhost:8080/order')
+            .then((response) => {
+                this.setState({orders: response.data});
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.log(error)
+            });
+    }
     render() {
         let rightButton = 'btn myRightTabButton';
         let leftButton = 'btn myLeftTabButton';
@@ -236,7 +269,7 @@ class Profile extends Component {
         return (
             <div>
                 <Navbar reservedFoods = {3} />
-                <Header name = "هومان چمنی" phoneNumber = "09300323231" email = "hoomonchamani@yahoo.com" credit="100000" />
+                <Header name = {localStorage.getItem('name')} phoneNumber = {localStorage.getItem('phoneNumber')} email = {localStorage.getItem('email')} credit={this.state.userCredit} />
                 <div className="myTabs">
                     <div className="d-flex justify-content-center mb-n2">
                         <button type="button" className={rightButton} onClick = {this.showOrders}>سفارش ها</button>

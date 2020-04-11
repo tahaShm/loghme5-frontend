@@ -11,6 +11,7 @@ import toPersianNum from '../utils/PersianNumber';
 import RestaurantCard from '../components/RestaurantCard';
 import PartyFoodCard from '../components/PartyFoodCard';
 import { Redirect, withRouter } from 'react-router';
+import Axios from 'axios';
 class Home extends Component {
     constructor(props) {
         super(props);
@@ -23,6 +24,8 @@ class Home extends Component {
             curIdx: 0,
             curFoodAmount: 0,
             dialogShow: false,
+            restaurantLoading: true,
+            partyLoading: true,
             partyFoods : [
                 {
                     imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRuCDDWRv3pWM13m11d0ujznrdfAYCjTKkBDEO2_9D-a9tuJXF7&usqp=CAU",
@@ -102,7 +105,7 @@ class Home extends Component {
                     score: 5
                 },
                 {
-                    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRuCDDWRv3pWM13m11d0ujznrdfAYCjTKkBDEO2_9D-a9tuJXF7&usqp=CAU",
+                    imageUrl: "https://www.knijff.nl/wp-content/uploads/2019/03/KFC-Ad.jpg",
                     name: "پیتزا",
                     oldPrice: 30000,
                     newPrice: 23000,
@@ -124,63 +127,40 @@ class Home extends Component {
                     score: 4
                 }
             ],
-            restaurants : [
-                {
-                    imageUrl: "https://www.free-largeimages.com/wp-content/uploads/2014/11/Kfc_logo-2.png",
-                    restaurantId: "adlkja",
-                    restaurantName: "Khames Fried chicken"
-                },
-                {
-                    imageUrl: "https://www.free-largeimages.com/wp-content/uploads/2014/11/Kfc_logo-2.png",
-                    restaurantId: "adlkja",
-                    restaurantName: "Khames Fried chicken"
-                },
-                {
-                    imageUrl: "https://www.free-largeimages.com/wp-content/uploads/2014/11/Kfc_logo-2.png",
-                    restaurantId: "adlkja",
-                    restaurantName: "Khames Fried chicken"
-                },
-                {
-                    imageUrl: "https://www.free-largeimages.com/wp-content/uploads/2014/11/Kfc_logo-2.png",
-                    restaurantId: "adlkja",
-                    restaurantName: "Khames Fried chicken"
-                },
-                {
-                    imageUrl: "https://www.free-largeimages.com/wp-content/uploads/2014/11/Kfc_logo-2.png",
-                    restaurantId: "adlkja",
-                    restaurantName: "Khames Fried chicken"
-                },
-                {
-                    imageUrl: "https://www.free-largeimages.com/wp-content/uploads/2014/11/Kfc_logo-2.png",
-                    restaurantId: "adlkja",
-                    restaurantName: "Khames Fried chicken"
-                },
-                {
-                    imageUrl: "https://www.free-largeimages.com/wp-content/uploads/2014/11/Kfc_logo-2.png",
-                    restaurantId: "adlkja",
-                    restaurantName: "Khames Fried chicken"
-                },
-                {
-                    imageUrl: "https://www.free-largeimages.com/wp-content/uploads/2014/11/Kfc_logo-2.png",
-                    restaurantId: "adlkja",
-                    restaurantName: "Khames Fried chicken"
-                },
-                {
-                    imageUrl: "https://www.free-largeimages.com/wp-content/uploads/2014/11/Kfc_logo-2.png",
-                    restaurantId: "adlkja",
-                    restaurantName: "Khames Fried chicken"
-                },
-                {
-                    imageUrl: "https://www.free-largeimages.com/wp-content/uploads/2014/11/Kfc_logo-2.png",
-                    restaurantId: "adlkja",
-                    restaurantName: "Khames Fried chicken"
-                }
-            ]
+            restaurants : []
         }
     }
-
     componentDidMount () {
+        this.fetchRestaurants()
+        this.fetchPartyFoods()
         
+    }
+
+    fetchRestaurants = () => {
+        Axios.get('http://localhost:8080/restaurant')
+        .then((response) => {
+            this.setState({
+                restaurants: response.data,
+                restaurantLoading: false
+            })
+        })
+        .catch((error) => {
+            console.log(error);
+            this.props.history.push('/home');
+        });
+    }
+    fetchPartyFoods = () => {
+        Axios.get('http://localhost:8080/partyFood')
+        .then((response) => {
+            this.setState({
+                partyFoods: response.data,
+                partyLoading: false
+            })
+        })
+        .catch((error) => {
+            console.log(error);
+            this.props.history.push('/home');
+        });
     }
 
     showPartyFoodModal (index) {
@@ -210,8 +190,8 @@ class Home extends Component {
         }
     }
     redirectRestaurant = (index) => {
-        let path = '/restaurant/' + this.state.restaurants[index].restaurantId;
-        this.setState({redirect: <Redirect to={'/profile'} /> })
+        let path = '/restaurant/' + this.state.restaurants[index].id;
+        this.props.history.push(path);
     }
     renderRestaurantCards() {
         if (this.state.restaurants != null && this.state.restaurants !== ""){
@@ -243,6 +223,8 @@ class Home extends Component {
     }
 
     render() { 
+        if (this.state.restaurantLoading === true || this.state.partyLoading === true) 
+            return <h2>Loading...</h2>
         return (
             <div>
                 <Navbar reservedFoods = {3} />
@@ -281,19 +263,19 @@ class Home extends Component {
                         </div>
                         <div class = "foodModalBody row">
                             <div class = "col-5">
-                                <img className = "modalFoodImage" src = {this.state.partyFoods[this.state.curIdx].imageUrl} alt="food-pic"/>
+                                <img className = "modalFoodImage" src = {this.state.partyFoods[this.state.curIdx].image} alt="food-pic"/>
                             </div>
                             <div class = "col-7">
                                 <div className = "modalFoodName row height-30">
                                     <p className = "modalFoodNameLabel"><strong>{this.state.partyFoods[this.state.curIdx].name}</strong></p>
                                     <i className="flaticon-star modalStar"></i>
-                                    <p className = "modalFoodScore">{toPersianNum(this.state.partyFoods[this.state.curIdx].score)}</p>
+                                    <p className = "modalFoodScore">{toPersianNum(this.state.partyFoods[this.state.curIdx].popularity)}</p>
                                 </div>
                                 <div className = "row height-30">
                                     <p className = "modalFoodDescriptionLabel">{this.state.partyFoods[this.state.curIdx].description}</p>
                                 </div>
                                 <div className = "row height-30">
-                                    <p className = "modalFoodPriceLabel myRedLineThrough">{toPersianNum(this.state.partyFoods[this.state.curIdx].oldPrice)} </p>
+                                    <p className = "modalFoodPriceLabel myRedLineThrough">{toPersianNum(this.state.partyFoods[this.state.curIdx].price)} </p>
                                     <p className = "modalFoodPriceLabel modalFoodNewPrice">{toPersianNum(this.state.partyFoods[this.state.curIdx].newPrice)} تومان</p>
                                 </div>
                            </div>
@@ -304,7 +286,7 @@ class Home extends Component {
                                 <div className="d-flex ml-2 myNotFirstFood">
                                     <div className="ml-auto p-2">
                                         <div class="modalRemainingDiv">
-                                            <p class="modalRemainingFood">موجودی:‌ {toPersianNum(this.state.partyFoods[this.state.curIdx].available)}</p>
+                                            <p class="modalRemainingFood">موجودی:‌ {toPersianNum(this.state.partyFoods[this.state.curIdx].count)}</p>
                                         </div>
                                     </div>
                                     <div className="mt-2 incDecDiv">
