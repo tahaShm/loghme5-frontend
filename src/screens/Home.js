@@ -10,11 +10,17 @@ import ResImg from '../images/KFC_logo.png'
 import FoodImg from '../images/pizza.jpg'
 import Slider from '../components/Slider';
 import toPersianNum from '../utils/PersianNumber';
+import RestaurantCard from '../components/RestaurantCard';
+import PartyFoodCard from '../components/PartyFoodCard';
+import { Redirect, withRouter } from 'react-router';
+import Profile from './Profile';
+import { Link } from 'react-router-dom';
 class Home extends Component {
     constructor(props) {
         super(props);
 
          this.state = {
+            redirect: "",
             partyFoods : [
                 {
                     imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRuCDDWRv3pWM13m11d0ujznrdfAYCjTKkBDEO2_9D-a9tuJXF7&usqp=CAU",
@@ -116,14 +122,57 @@ class Home extends Component {
                     score: 4
                 }
             ],
-            test : [
-                <p>hello</p>,
-                <p>hello</p>,
-                <p>hello</p>,
-                <p>hello</p>,
-                <p>hello</p>,
-                <p>hello</p>,
-                <p>hello</p>,
+            restaurants : [
+                {
+                    imageUrl: "https://www.free-largeimages.com/wp-content/uploads/2014/11/Kfc_logo-2.png",
+                    restaurantId: "adlkja",
+                    restaurantName: "Khames Fried chicken"
+                },
+                {
+                    imageUrl: "https://www.free-largeimages.com/wp-content/uploads/2014/11/Kfc_logo-2.png",
+                    restaurantId: "adlkja",
+                    restaurantName: "Khames Fried chicken"
+                },
+                {
+                    imageUrl: "https://www.free-largeimages.com/wp-content/uploads/2014/11/Kfc_logo-2.png",
+                    restaurantId: "adlkja",
+                    restaurantName: "Khames Fried chicken"
+                },
+                {
+                    imageUrl: "https://www.free-largeimages.com/wp-content/uploads/2014/11/Kfc_logo-2.png",
+                    restaurantId: "adlkja",
+                    restaurantName: "Khames Fried chicken"
+                },
+                {
+                    imageUrl: "https://www.free-largeimages.com/wp-content/uploads/2014/11/Kfc_logo-2.png",
+                    restaurantId: "adlkja",
+                    restaurantName: "Khames Fried chicken"
+                },
+                {
+                    imageUrl: "https://www.free-largeimages.com/wp-content/uploads/2014/11/Kfc_logo-2.png",
+                    restaurantId: "adlkja",
+                    restaurantName: "Khames Fried chicken"
+                },
+                {
+                    imageUrl: "https://www.free-largeimages.com/wp-content/uploads/2014/11/Kfc_logo-2.png",
+                    restaurantId: "adlkja",
+                    restaurantName: "Khames Fried chicken"
+                },
+                {
+                    imageUrl: "https://www.free-largeimages.com/wp-content/uploads/2014/11/Kfc_logo-2.png",
+                    restaurantId: "adlkja",
+                    restaurantName: "Khames Fried chicken"
+                },
+                {
+                    imageUrl: "https://www.free-largeimages.com/wp-content/uploads/2014/11/Kfc_logo-2.png",
+                    restaurantId: "adlkja",
+                    restaurantName: "Khames Fried chicken"
+                },
+                {
+                    imageUrl: "https://www.free-largeimages.com/wp-content/uploads/2014/11/Kfc_logo-2.png",
+                    restaurantId: "adlkja",
+                    restaurantName: "Khames Fried chicken"
+                }
             ]
         }
     }
@@ -139,59 +188,49 @@ class Home extends Component {
             
             for (let index = 0; index < partyFoods.length; index++) { 
                 content.push(
-                    <div class="col-3 partyCardWidth">
-                        <div class="card myPartyCard">
-                            <div class="row mt-2 justify-content-center">
-                                <div class="col-6 mr-2">
-                                    <img class = "menuFoodImage w-100" src = {partyFoods[index].imageUrl} alt="food-pic"/>
-                                </div>
-                                <div class="col-5 ml-1 padding-r-0">
-                                    <div class = "foodName">
-                                        <p class = "foodNameLabel d-flex"><strong>{partyFoods[index].name}</strong></p>
-                                        <div class = "d-flex margin-t-15">
-                                            <p class = "menuStarLabel">{toPersianNum(partyFoods[index].score)}</p>
-                                            <i class="flaticon-star menuStarIcon"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="container">
-                                <div class="row mt-1 justify-content-around">
-                                    <div class="col-6 pl-0">
-                                        <p class = "menuFoodPrice myRedLineThrough">{toPersianNum(partyFoods[index].oldPrice)}</p>
-                                    </div>
-                                    <div class="col-6 pr-0">
-                                        <p class = "menuFoodPrice">{toPersianNum(partyFoods[index].newPrice)}</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="container">
-                                <div class="row justify-content-around">
-                                    <div class="col-6 pl-1">
-                                        <p class="myRemainingFood">موجودی:‌ {toPersianNum(partyFoods[index].available)}</p>
-                                    </div>
-                                    <div class="col-6 pr-1">
-                                        <button type="button" class="btn myPartyBuyBtn">خرید</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr class="myDashedGreenLine"/>
-                            <div class="text-center myPartyRestaurant">
-                                <p>{partyFoods[index].restaurantName}</p>
-                            </div>
-                        </div>
-                    </div>
+                    <PartyFoodCard partyFood = {partyFoods[index]} />
                 )
             } 
-            console.log(content)
+            console.log("content:", content)
             return (
                 <Slider children = {content}/>
             )
         }
     }
+    redirectRestaurant = (index) => {
+        let path = '/restaurant/' + this.state.restaurants[index].restaurantId;
+        this.setState({redirect: <Redirect to={'/profile'} /> })
+    }
+    renderRestaurantCards() {
+        if (this.state.restaurants != null && this.state.restaurants !== ""){
+            let restaurants = this.state.restaurants;
+            let content = [];
+            
+            for (let index = 0; index < restaurants.length / 4; index++) { 
+                content.push(
+                    <div class = "row mt-2">
+                        <RestaurantCard info = {restaurants[index*4]} onButtonClick = {(e) => this.redirectRestaurant(index*4)}/>
+                        {index*4 + 1 < restaurants.length &&
+                            <RestaurantCard info = {restaurants[index*4 + 1]} onButtonClick = {(e) => this.redirectRestaurant(index*4 + 1)}/>
+                        }
+                        {index*4 + 2 < restaurants.length &&
+                            <RestaurantCard info = {restaurants[index*4 + 2]} onButtonClick = {(e) => this.redirectRestaurant(index*4 + 2)}/>
+                        }
+                        {index*4 + 3 < restaurants.length &&
+                            <RestaurantCard info = {restaurants[index*4 + 3]} onButtonClick = {(e) => this.redirectRestaurant(index*4 + 3)}/>
+                        }
+                    </div>
+                )
+            }
+            return (
+                <div>
+                    {content}
+                </div>
+            )
+        }
+    }
 
-    render() {
-        
+    render() { 
         return (
             <div>
                 <Navbar reservedFoods = {3} />
@@ -215,82 +254,7 @@ class Home extends Component {
                 </div>
 
                 <div class="container">
-                    <div class="row mt-2">
-                        <div class="col-3">
-                            <div class="card myPartyCard">
-                                <img src={ResImg} width="50%" class="myHomeResLogo"/>
-                                <p class="myNormalRestaurantName">Khames Fried Chicken</p>
-                                <div class="text-center">
-                                    <button type="button" class="btn myShowMenuBtn">نمایش منو</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="card myPartyCard">
-                                <img src={ResImg} width="50%" class="myHomeResLogo"/>
-                                <p class="myNormalRestaurantName">Khames Fried Chicken</p>
-                                <div class="text-center">
-                                    <button type="button" class="btn myShowMenuBtn">نمایش منو</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="card myPartyCard">
-                                <img src={ResImg} width="50%" class="myHomeResLogo"/>
-                                <p class="myNormalRestaurantName">Khames Fried Chicken</p>
-                                <div class="text-center">
-                                    <button type="button" class="btn myShowMenuBtn">نمایش منو</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="card myPartyCard">
-                                <img src={ResImg} width="50%" class="myHomeResLogo"/>
-                                <p class="myNormalRestaurantName">Khames Fried Chicken</p>
-                                <div class="text-center">
-                                    <button type="button" class="btn myShowMenuBtn">نمایش منو</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-3">
-                            <div class="card myPartyCard">
-                                <img src={ResImg} width="50%" class="myHomeResLogo"/>
-                                <p class="myNormalRestaurantName">Khames Fried Chicken</p>
-                                <div class="text-center">
-                                    <button type="button" class="btn myShowMenuBtn">نمایش منو</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="card myPartyCard">
-                                <img src={ResImg} width="50%" class="myHomeResLogo"/>
-                                <p class="myNormalRestaurantName">Khames Fried Chicken</p>
-                                <div class="text-center">
-                                    <button type="button" class="btn myShowMenuBtn">نمایش منو</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="card myPartyCard">
-                                <img src={ResImg} width="50%" class="myHomeResLogo"/>
-                                <p class="myNormalRestaurantName">Khames Fried Chicken</p>
-                                <div class="text-center">
-                                    <button type="button" class="btn myShowMenuBtn">نمایش منو</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="card myPartyCard">
-                                <img src={ResImg} width="50%" class="myHomeResLogo"/>
-                                <p class="myNormalRestaurantName">Khames Fried Chicken</p>
-                                <div class="text-center">
-                                    <button type="button" class="btn myShowMenuBtn">نمایش منو</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    {this.renderRestaurantCards()}
                 </div>
                 <Footer />
             </div>
@@ -298,4 +262,4 @@ class Home extends Component {
     }
 }
 
-export default Home;
+export default withRouter((Home))
