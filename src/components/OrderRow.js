@@ -15,17 +15,17 @@ class OrderRow extends Component {
         this.setState({userAccountField: this.props.userAccountField ? this.props.userAccountField : false})
     }
     renderStatusButton() {
-        if (this.props.status === "finding") {
+        if (this.props.status === "finding delivery") {
             return (
                 <button type="button" className="btn btn-sm mySearching" onClick = {this.props.onButtonClick}>در جستوجوی پیک</button>
             )
         }
-        else if (this.props.status === "onTheWay"){
+        else if (this.props.status === "delivering"){
             return (
                 <button type="button" className="btn btn-sm myDelivering" onClick = {this.props.onButtonClick}>پیک در مسیر</button>
             )
         }
-        else if (this.props.status === "delivered") {
+        else if (this.props.status === "done") {
             return (
                 <button type="button" className="btn btn-sm mySeeBill" onClick = {this.props.onButtonClick}>مشاهده فاکتور</button>
             )

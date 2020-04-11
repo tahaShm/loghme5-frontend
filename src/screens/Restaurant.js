@@ -5,11 +5,9 @@ import '../styles/font/flaticon.css'
 import '../styles/main.css'
 import Navbar from '../components/Navbar';
 import Header from '../components/Header';
-import OrderRow from '../components/OrderRow'
 import Footer from '../components/Footer';
 import toPersianNum from '../utils/PersianNumber';
-import { Redirect } from 'react-router';
-import RestaurantImg from '../images/McDonald\'sLogo.png'
+import axios from 'axios'
 
 import FoodCart from '../components/FoodCart';
 import FoodCard from '../components/FoodCard';
@@ -23,6 +21,8 @@ class Restaurant extends Component {
         this.hideFoodModal = this.hideFoodModal.bind(this)
         this.increaseCurrentFood = this.increaseCurrentFood.bind(this)
         this.decreaseCurrentFood = this.decreaseCurrentFood.bind(this)
+        this.addFoodFromModal = this.addFoodFromModal.bind(this)
+        this.finalizeOrder = this.finalizeOrder.bind(this)
 
         this.state = {
             restaurantId : 0,
@@ -127,6 +127,14 @@ class Restaurant extends Component {
         this.setState({restaurantId: restaurantId}, function(){
             // fetch info and check restaurantId validation and set current order and menu
         });
+
+        axios.get("http://localhost:8080/currentOrder")
+        .then((response) => {
+            this.setState({currentOrder: response.data})
+        })
+        .catch((error) => {
+            console.log(error);
+        });
     }
     showFoodModal(index) {
         console.log(index)
@@ -169,19 +177,67 @@ class Restaurant extends Component {
         let tempOrder = this.state.currentOrder.slice()
         tempOrder[index].amount += 1
         this.setState({currentOrder: tempOrder})
-        // increase
+        
+        axios.put('http://localhost:8080/food/' + this.state.restaurantId, null, {params: {
+            foodName: this.state.currentOrder[index].name,
+            count: 1
+        }})
+        .then((response) => {
+            this.setState({currentOrder: response.data})
+        })
+        .catch((error) => {
+            console.log(error);
+        });
     }
     decreaseFood(index) {
         let tempOrder = this.state.currentOrder.slice()
-        tempOrder[index].amount -= 1
+        tempOrder[index].count -= 1
+        if (tempOrder[index].count < 0) {
+            return;
+        }
         this.setState({currentOrder: tempOrder})
-        // decrease
+        
+        axios.delete('http://localhost:8080/food/' + this.state.restaurantId, {params: {
+            foodName: this.state.currentOrder[index].name,
+            count: 1
+        }})
+        .then((response) => {
+            this.setState({currentOrder: response.data})
+        })
+        .catch((error) => {
+            console.log(error);
+        });
     }
     increaseCurrentFood() {
         this.setState({curFoodAmount: this.state.curFoodAmount + 1})
     }
     decreaseCurrentFood() {
-        this.setState({curFoodAmount: this.state.curFoodAmount - 1})
+        this.setState({curFoodCount: this.state.curFoodCount - 1})
+    }
+    addFoodFromModal() {
+        var curIdx = this.state.curIdx
+        var curFoodCount = this.state.curFoodCount
+        axios.put('http://localhost:8080/food/' + this.state.restaurantId, null, {params: {
+            foodName: this.state.menu[curIdx].name,
+            count: curFoodCount
+        }})
+        .then((response) => {
+            this.setState({currentOrder: response.data})
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+        this.hideFoodModal();
+    }
+    finalizeOrder() {
+        axios.put('http://localhost:8080/order')
+        .then((response) => {
+            this.setState({currentOrder: null})
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+        this.forceUpdate();
     }
 
     render() {

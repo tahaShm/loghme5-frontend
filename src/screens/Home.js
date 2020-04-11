@@ -223,7 +223,7 @@ class Home extends Component {
     }
 
     render() { 
-        if (this.state.restaurantLoading === true || this.state.partyLoading === true) 
+        if (this.state.restaurantLoading === true || this.state.partyLoading === true ) 
             return <h2>Loading...</h2>
         return (
             <div>
