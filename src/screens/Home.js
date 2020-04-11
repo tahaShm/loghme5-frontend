@@ -32,8 +32,11 @@ class Home extends Component {
         this.showCart = this.showCart.bind(this)
         this.hideCart = this.hideCart.bind(this)
         this.enableMessage = this.enableMessage.bind(this)
+        this.startTimer = this.startTimer.bind(this);
+        this.countDown = this.countDown.bind(this);
 
-        this.timer = setTimeout(this.enableMessage, 1000);
+        // this.timer = setTimeout(this.enableMessage, 1000);
+        this.timer = 0
 
         this.state = {
             redirect: "",
@@ -47,7 +50,9 @@ class Home extends Component {
             restaurants : [],
             displayMessage: false,
             currentOrder: [],
-            foodCountInOrder: 0
+            foodCountInOrder: 0,
+            time: {},
+            seconds: 600
         }
     }
 
@@ -59,6 +64,9 @@ class Home extends Component {
         this.fetchRestaurants()
         this.fetchPartyFoods()
         this.fetchCurrentOrder()
+        let timeLeftVar = this.secondsToTime(this.state.seconds);
+        this.setState({ time: timeLeftVar });
+        this.startTimer();
     }
 
     fetchRestaurants = () => {
@@ -243,14 +251,48 @@ class Home extends Component {
         this.forceUpdate();
     }
 
+    secondsToTime(secs){
+        let hours = Math.floor(secs / (60 * 60));
+    
+        let divisor_for_minutes = secs % (60 * 60);
+        let minutes = Math.floor(divisor_for_minutes / 60);
+    
+        let divisor_for_seconds = divisor_for_minutes % 60;
+        let seconds = Math.ceil(divisor_for_seconds);
+    
+        let obj = {
+            "h": hours,
+            "m": minutes,
+            "s": seconds
+        };
+        return obj;
+    }
+    startTimer() {
+        if (this.timer == 0 && this.state.seconds > 0) {
+          this.timer = setInterval(this.countDown, 1000);
+        }
+    }
+    
+    countDown() {
+        let seconds = this.state.seconds - 1;
+        this.setState({
+            time: this.secondsToTime(seconds),
+            seconds: seconds,
+        });
+        
+        if (seconds == 0) { 
+            this.setState({seconds: 600})
+        }
+    }
+
     render() { 
-        if (this.state.restaurantLoading === true || this.state.partyLoading === true || this.state.displayMessage === false) 
-            return (
-                <div id ="center" className="spinnerDiv">
-                    <Spinner animation="border" variant="success" />
-                </div>
+        // if (this.state.restaurantLoading === true || this.state.partyLoading === true || this.state.displayMessage === false) 
+        //     return (
+        //         <div id ="center" className="spinnerDiv">
+        //             <Spinner animation="border" variant="success" />
+        //         </div>
                 
-            )
+        //     )
         return (
             <div>
                 <ToastContainer enableMultiContainer containerId={'differentRestaurant'} type = {toast.TYPE.ERROR} position={toast.POSITION.TOP_CENTER} />
@@ -262,7 +304,7 @@ class Home extends Component {
                     <p class="myHomeTitle">جشن غذا!</p>
                     <div class="myPartySeparator"></div>
                     <div class="myRemainingTime">
-                        <p class = "timeLabelStyle">زمان باقی مانده: ۲۱:۴۸</p>
+                    <p class = "timeLabelStyle">زمان باقی مانده: {this.state.time.m}:{this.state.time.s}</p>
                     </div>
                 </div>
                 <div class="card myPartyNavCard">
